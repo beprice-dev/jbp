@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Jéssica Batista Paiva</title>
+<style>[hidden]{display:none!important}html,body{margin:0}</style>
+</head>
+<body>
+
+<meta name="description" content="Contato do escritório: WhatsApp, site e informações sobre direito criminal e execução penal.">
+<meta property="og:title" content="Jéssica Batista Paiva">
+<meta name="robots" content="index, follow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,500;0,6..72,600;1,6..72,500&display=swap">
+<style>
+:root{
+  color-scheme:dark;
+  --ground:#0A0A0B; --surface:#141416; --surface-2:#1C1C1F; --line:#2D2D31;
+  --ink:#EEECEC; --ink-2:#B4B1B3; --ink-3:#85828A;
+  --wine:#7A1F38; --rose:#E58BA6; --rose-soft:#36151F;
+  --f-display:'Newsreader',Georgia,serif; --f-ui:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:var(--ground)}
+body{margin:0;color:var(--ink);font-family:var(--f-ui);line-height:1.5;padding-inline:20px}
+.wrap{max-width:440px;margin-inline:auto;padding-block:clamp(28px,8vh,64px) 40px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px;min-height:calc(100vh - 40px);min-height:calc(100dvh - 40px)}
+.avatar{width:96px;height:96px;border-radius:50%;background:radial-gradient(120% 120% at 32% 22%,#9C2F4D 0%,#4A1122 62%,#1a0a0f 100%);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--f-display);font-style:italic;font-size:38px;color:var(--rose);margin-bottom:8px;flex:none}
+h1{font-family:var(--f-display);font-weight:500;font-size:26px;margin:0;letter-spacing:-.01em}
+.tag{font-size:14px;color:var(--ink-2);margin:2px 0 4px}
+.badge{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-family:ui-monospace,'JetBrains Mono',monospace;margin-bottom:22px}
+.links{display:flex;flex-direction:column;gap:12px;width:100%;margin-top:6px}
+.lnk{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:15.5px;font-weight:500;transition:border-color .15s,background .15s}
+.lnk:hover{border-color:var(--ink-3);background:var(--surface-2)}
+.lnk.primary{background:var(--wine);border-color:var(--wine);color:#fff}
+.lnk.primary:hover{background:#8C2444;border-color:#8C2444}
+.lnk .arrow{color:var(--rose);font-size:14px}
+.lnk.primary .arrow{color:rgba(255,255,255,.85)}
+.spacer{flex:1;min-height:24px}
+.foot{font-size:12px;color:var(--ink-3);max-width:36ch;line-height:1.5;margin-top:8px}
+.foot a{color:var(--ink-2)}
+:focus-visible{outline:2px solid var(--rose);outline-offset:3px;border-radius:8px}
+</style>
+
+<div class="wrap">
+  <div class="avatar" aria-hidden="true">JB</div>
+  <h1>Jéssica Batista Paiva</h1>
+  <p class="tag">Direito Criminal · Execução Penal</p>
+  <p class="badge">OAB/RJ 237.849</p>
+
+  <nav class="links" aria-label="Contato">
+    <a class="lnk primary" id="wa" href="#" target="_blank" rel="noopener">Falar no WhatsApp <span class="arrow">→</span></a>
+    <a class="lnk" href="site/" target="_blank" rel="noopener">Ver o site completo <span class="arrow">→</span></a>
+    <a class="lnk" href="site/#informacao" target="_blank" rel="noopener">Dúvidas sobre prisão e execução penal <span class="arrow">→</span></a>
+    <a class="lnk" id="mail" href="#">E-mail <span class="arrow">→</span></a>
+  </nav>
+
+  <div class="spacer"></div>
+  <p class="foot">Conteúdo meramente informativo, nos termos do Provimento 205/2021 da OAB. O atendimento inicial pode usar assistente virtual de inteligência artificial, supervisionado pela advogada.</p>
+</div>
+
+<script>
+(() => {
+  const CFG = {wa: '5521965234219', mail: 'jessbatistdir@gmail.com'};
+  document.getElementById('wa').href = 'https://wa.me/' + CFG.wa;
+  document.getElementById('mail').href = 'mailto:' + CFG.mail;
+})();
+</script>
+
+</body>
+</html>
