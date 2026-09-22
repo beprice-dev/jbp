@@ -1,0 +1,1940 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Plantão Jurídico</title>
+<style>[hidden]{display:none!important}html,body{margin:0}</style>
+</head>
+<body>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Source+Sans+3:wght@400;500;600&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&family=Sora:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#E8ECEA; --surface:#F8FAF9; --surface-2:#EEF2F0; --line:#CBD5D1;
+  --ink:#12201D; --ink-2:#4A5C58; --ink-3:#71827E;
+  --accent:#6B1D33; --accent-ink:#FFFFFF; --accent-soft:#EFD9E0;
+  --amber:#9A5200; --amber-soft:#F6E3C8;
+  --ok:#14685A; --ok-soft:#D3EAE3;
+  --chat-bg:#DDE5E2; --bubble-bot:#FFFFFF; --bubble-client:#EFD9E0; --bubble-human:#D3EAE3;
+  --shadow:0 1px 2px rgba(18,32,29,.08),0 12px 32px -12px rgba(18,32,29,.22);
+  --f-display:'Newsreader',Georgia,'Times New Roman',serif;
+  --f-ui:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --ground:#0C1113; --surface:#151C1F; --surface-2:#1B2427; --line:#2A3639;
+    --ink:#E4ECEA; --ink-2:#9DB0AB; --ink-3:#71847F;
+    --accent:#E58BA6; --accent-ink:#2A0D16; --accent-soft:#3A1B27;
+    --amber:#F0A24B; --amber-soft:#3A2A12;
+    --ok:#5CC7AB; --ok-soft:#12302A;
+    --chat-bg:#0F1618; --bubble-bot:#1F292C; --bubble-client:#3A1B27; --bubble-human:#12302A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0C1113; --surface:#151C1F; --surface-2:#1B2427; --line:#2A3639;
+  --ink:#E4ECEA; --ink-2:#9DB0AB; --ink-3:#71847F;
+  --accent:#E58BA6; --accent-ink:#2A0D16; --accent-soft:#3A1B27;
+  --amber:#F0A24B; --amber-soft:#3A2A12;
+  --ok:#5CC7AB; --ok-soft:#12302A;
+  --chat-bg:#0F1618; --bubble-bot:#1F292C; --bubble-client:#3A1B27; --bubble-human:#12302A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -12px rgba(0,0,0,.6);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.5;padding-inline:16px}
+.shell{max-width:1120px;margin-inline:auto;padding-block:28px 40px;display:flex;flex-direction:column;gap:20px}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* header */
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 24px}
+.eyebrow{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+h1{font-family:var(--f-display);font-weight:600;font-size:34px;line-height:1.1;margin:4px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.top p{margin:0;max-width:44ch;color:var(--ink-2)}
+
+.tabs{display:flex;flex-wrap:wrap;gap:2px 8px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;padding:10px 12px;color:var(--ink-2);border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--ink);font-weight:600;border-bottom-color:var(--accent)}
+.tabs .spacer{flex:1}
+.restart{border:1px solid var(--line);background:transparent;border-radius:999px;padding:6px 12px;color:var(--ink-2);cursor:pointer;align-self:center;margin-bottom:4px}
+.restart:hover{color:var(--ink);border-color:var(--ink-3)}
+
+.pain{display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline;margin:0}
+.pain b{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.pain span{max-width:80ch;font-size:15px}
+
+/* stage */
+.stage{display:grid;grid-template-columns:360px minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:880px){.stage{grid-template-columns:minmax(0,1fr)}}
+
+/* phone */
+.phone{width:100%;max-width:360px;height:640px;margin-inline:auto;background:var(--surface);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow);display:flex;flex-direction:column;overflow:hidden}
+.phone-head{display:flex;gap:10px;align-items:center;padding:12px 14px;border-bottom:1px solid var(--line);background:var(--surface)}
+.avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:600;font-size:17px;flex:none}
+.phone-head strong{display:block;font-weight:600;line-height:1.2}
+.phone-head small{color:var(--ink-3);font-size:12px;line-height:1.2}
+.msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;background:var(--chat-bg)}
+.msg{max-width:84%;padding:8px 11px 6px;border-radius:14px;font-size:14px;line-height:1.42;overflow-wrap:anywhere}
+.msg time{display:block;text-align:right;font-family:var(--f-mono);font-size:10px;color:var(--ink-3);margin-top:2px}
+.msg.bot{align-self:flex-start;background:var(--bubble-bot);border-top-left-radius:4px}
+.msg.client{align-self:flex-end;background:var(--bubble-client);border-top-right-radius:4px}
+.msg.human{align-self:flex-start;background:var(--bubble-human);border-top-left-radius:4px}
+.msg.human::before{content:'Dra. Helena Duarte';display:block;font-size:11px;font-weight:600;color:var(--ok);margin-bottom:1px}
+.msg.sys{align-self:center;background:transparent;color:var(--ink-3);font-size:12px;padding:2px 8px;text-align:center}
+.seal{display:block;margin-top:6px;padding-top:5px;border-top:1px dashed var(--line);font-size:11px;color:var(--ok);font-weight:500}
+.typing{display:flex;gap:4px;padding:11px 13px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--ink-3);animation:blink 1s infinite ease-in-out}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+@media (prefers-reduced-motion:reduce){.typing i{animation:none;opacity:.6}}
+.choices{display:flex;flex-wrap:wrap;gap:8px;padding:10px 12px;border-top:1px solid var(--line);background:var(--surface);min-height:58px;align-content:center}
+.chip{border:1px solid var(--accent);color:var(--accent);background:transparent;border-radius:999px;padding:7px 13px;font-size:13px;font-weight:500;cursor:pointer}
+.chip:hover{background:var(--accent-soft)}
+.doc{min-width:220px}
+.doc h4{margin:0 0 6px;font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.doc dl{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;font-size:13px}
+.doc dt{color:var(--ink-3)}.doc dd{margin:0;font-variant-numeric:tabular-nums}
+
+/* reel preview */
+.reel-wrap{flex:1;background:var(--chat-bg);display:grid;place-items:center;padding:14px}
+.reel{position:relative;height:100%;max-height:100%;aspect-ratio:9/16;max-width:100%;border-radius:14px;overflow:hidden;background:radial-gradient(120% 80% at 50% 30%,#1c1c1c 0%,#000 70%);color:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:14px}
+.reel .tag{align-self:flex-start;font-family:var(--f-mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:3px 8px;color:rgba(255,255,255,.85)}
+.reel .line{font-family:var(--f-display);font-weight:600;font-size:23px;line-height:1.18;text-align:center;text-wrap:balance;padding-inline:4px}
+.reel .lower{font-size:11px;color:rgba(255,255,255,.8);display:flex;flex-direction:column;gap:2px}
+.reel .lower b{font-weight:600;color:#fff;font-size:12px}
+.reel .fmt{font-family:var(--f-mono);font-size:10px;color:rgba(255,255,255,.55)}
+.reel-note{padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--ink-3);background:var(--surface)}
+
+/* panel */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;min-width:0;position:relative}
+.panel-head{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.panel-head h2{font-family:var(--f-display);font-weight:600;font-size:20px;margin:0}
+.panel-head small{color:var(--ink-3);font-size:12px}
+.panel-body{padding:18px;display:flex;flex-direction:column;gap:18px}
+.sec-title{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 8px;font-weight:500}
+.pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.amber{background:var(--amber-soft);color:var(--amber)}
+.pill.ok{background:var(--ok-soft);color:var(--ok)}
+.pill.acc{background:var(--accent-soft);color:var(--accent)}
+.pill.mute{background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;font-weight:500;cursor:pointer}
+.btn:hover{border-color:var(--ink-3)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.55;cursor:default}
+.row-actions{display:flex;flex-wrap:wrap;gap:8px}
+
+.qcard{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--surface)}
+.qcard-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 12px;padding:10px 14px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.qcard.urgent .qcard-head{background:var(--amber-soft);border-bottom-color:transparent}
+.qcard-head .mono{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+.qcard-body{padding:14px;display:flex;flex-direction:column;gap:12px}
+.qcard h3{margin:0;font-family:var(--f-display);font-size:19px;font-weight:600}
+dl.fields{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;margin:0}
+dl.fields dt{color:var(--ink-3)}
+dl.fields dd{margin:0;font-variant-numeric:tabular-nums}
+.pending{color:var(--ink-3);font-style:italic}
+.summary{background:var(--surface-2);border-radius:8px;padding:10px 12px;font-size:13px;color:var(--ink-2)}
+.draft{background:var(--surface-2);border:1px dashed var(--ink-3);border-radius:8px;padding:12px;font-size:14px;line-height:1.5;white-space:pre-wrap}
+.draft[contenteditable="true"]{border-style:solid;border-color:var(--accent);background:var(--surface);outline:none}
+.src{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+
+.rules{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:13px;color:var(--ink-2)}
+.rules li{display:flex;gap:8px}
+.rules li::before{content:'✓';color:var(--ok);font-weight:700}
+
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.kpi{border-top:1px solid var(--line);padding-top:8px}
+.kpi small{display:block;color:var(--ink-3);font-size:12px}
+.kpi strong{font-family:var(--f-display);font-size:24px;font-weight:600;font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+th{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:left;font-weight:500;padding:6px 10px 6px 0;border-bottom:1px solid var(--line)}
+td{padding:9px 10px 9px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+tr:last-child td{border-bottom:0}
+.ladder{margin:0;padding:0;list-style:none;display:grid;gap:8px;font-size:13px}
+.ladder li{display:grid;grid-template-columns:52px 1fr auto;gap:10px;align-items:baseline}
+.ladder .d{font-family:var(--f-mono);color:var(--ink-3);font-size:12px}
+.legend{font-size:12px;color:var(--ink-3);margin:8px 0 0}
+
+.posts{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.post{display:grid;grid-template-columns:92px minmax(0,1fr) auto;gap:4px 12px;align-items:center;text-align:left;background:var(--surface);border:0;border-bottom:1px solid var(--line);padding:10px 14px;cursor:pointer;width:100%}
+.post:last-child{border-bottom:0}
+.post:hover{background:var(--surface-2)}
+.post[aria-current="true"]{background:var(--accent-soft)}
+.post .when{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+.post .ttl{font-weight:500;overflow-wrap:anywhere}
+.post .fmt{color:var(--ink-3);font-size:12px;font-weight:400;display:block}
+@media (max-width:520px){.post{grid-template-columns:minmax(0,1fr) auto}.post .when{grid-column:1/-1}}
+.checks{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13px}
+.checks li{display:flex;gap:8px;align-items:baseline}
+.tick{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:var(--ok-soft);color:var(--ok);font-size:10px;font-weight:700;flex:none}
+.tick.no{background:transparent;border:1px solid var(--ink-3);color:transparent}
+.script{margin:0;padding-left:18px;display:grid;gap:3px;color:var(--ink-2)}
+
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:8px;font-size:13px;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+.foot{color:var(--ink-3);font-size:12px;display:grid;gap:4px;max-width:90ch}
+
+/* ===== v2: app shell ===== */
+body{padding-inline:0}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;align-self:start;height:100vh;overflow-y:auto;background:var(--surface);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:18px}
+.brand{display:flex;flex-direction:column;gap:2px;padding-inline:8px}
+.brand strong{font-family:var(--f-display);font-size:22px;font-weight:600;letter-spacing:-.01em}
+.brand span{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;background:none;border:0;border-radius:8px;padding:8px 10px;color:var(--ink-2);cursor:pointer}
+.nav button:hover{background:var(--surface-2);color:var(--ink)}
+.nav button[aria-current="page"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav .cnt{font-family:var(--f-mono);font-size:11px;background:var(--amber-soft);color:var(--amber);border-radius:999px;padding:0 7px}
+.nav hr{border:0;border-top:1px solid var(--line);margin:6px 8px;width:calc(100% - 16px)}
+.profile{margin-top:auto;border-top:1px solid var(--line);padding:12px 8px 0;display:grid;gap:6px}
+.profile label{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.profile input{width:100%;font:inherit;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 8px;color:var(--ink)}
+.profile small{color:var(--ink-3);font-size:11px;line-height:1.35}
+.main{padding:24px clamp(16px,3vw,36px) 48px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.main-head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px 20px}
+.main-head h1{font-size:30px;margin:0}
+.main-head p{margin:2px 0 0;color:var(--ink-2)}
+.demo-flag{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--amber);background:var(--amber-soft);border-radius:999px;padding:3px 10px}
+@media (max-width:860px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .side{position:static;height:auto;border-right:0;border-bottom:1px solid var(--line);padding:12px 16px}
+  .nav{flex-direction:row;overflow-x:auto;gap:4px}
+  .nav button{white-space:nowrap}
+  .nav hr{display:none}
+  .profile{margin-top:0}
+}
+
+/* ===== blocks ===== */
+.grid{display:grid;gap:20px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.g-main{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+@media (max-width:1000px){.g-main,.g3{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.g2{grid-template-columns:minmax(0,1fr)}}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.block>h2{font-family:var(--f-display);font-size:19px;font-weight:600;margin:0 0 10px}
+.block .sub{color:var(--ink-3);font-size:12px;margin:-6px 0 10px}
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.kpi-row .kpi strong{display:block}
+.kpi .delta{font-size:12px;color:var(--ink-3)}
+.kpi .delta.up{color:var(--ok)}.kpi .delta.down{color:var(--amber)}
+.list{display:grid;gap:0}
+.item{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:0}
+.item .t{font-weight:500;overflow-wrap:anywhere}
+.item .m{color:var(--ink-3);font-size:12px;grid-column:2}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--ink-3);grid-row:1}
+.dot.aud{background:var(--accent)}.dot.pra{background:var(--amber)}.dot.ate{background:var(--ok)}
+.field{display:grid;gap:4px;min-width:0}
+.field label{font-size:12px;color:var(--ink-3)}
+.field input,.field select,.field textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%;min-width:0}
+.field textarea{resize:vertical;line-height:1.5}
+.field .hint{font-size:12px;color:var(--ink-3)}
+.field .hint.bad{color:var(--amber)}.field .hint.good{color:var(--ok)}
+.form-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.switch{display:flex;align-items:center;gap:10px;cursor:pointer}
+.switch input{width:38px;height:22px;accent-color:var(--accent)}
+.note{background:var(--surface-2);border-radius:8px;padding:10px 12px;color:var(--ink-2);font-size:13px}
+.note b{color:var(--ink)}
+
+/* agenda */
+.week{display:grid;grid-template-columns:repeat(7,minmax(112px,1fr));gap:8px;overflow-x:auto;padding-bottom:4px}
+.day{background:var(--surface-2);border-radius:10px;padding:8px;min-height:150px;display:flex;flex-direction:column;gap:6px}
+.day.today{outline:2px solid var(--accent);outline-offset:-2px}
+.day h3{margin:0;font-size:11px;font-family:var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.ev{border-radius:7px;padding:5px 7px;font-size:12px;line-height:1.3;background:var(--surface);border:1px solid var(--line);overflow-wrap:anywhere}
+.ev b{display:block;font-family:var(--f-mono);font-weight:500;font-size:11px;color:var(--ink-2)}
+.ev.aud{border-color:var(--accent);background:var(--accent-soft)}
+.ev.pra{border-color:var(--amber);background:var(--amber-soft)}
+.ev.ate{border-color:var(--ok);background:var(--ok-soft)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse}
+.tbl td,.tbl th{padding:9px 10px 9px 0;text-align:left;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr.clickable{cursor:pointer}
+.tbl tr.clickable:hover td{background:var(--surface-2)}
+.tbl tr[aria-selected="true"] td{background:var(--accent-soft)}
+.mono{font-family:var(--f-mono);font-size:12px}
+
+/* case reader */
+.timeline{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.timeline li{display:grid;grid-template-columns:78px minmax(0,1fr);gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.timeline li:last-child{border-bottom:0}
+.timeline time{font-family:var(--f-mono);font-size:12px;color:var(--ink-3)}
+.timeline .new{color:var(--accent);font-weight:600}
+.paper{background:var(--surface-2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;font-family:var(--f-display);font-size:15px;line-height:1.6;white-space:pre-wrap}
+.paper mark{background:var(--amber-soft);color:var(--ink);padding:0 2px;border-radius:3px}
+
+/* inbox */
+.inbox{display:grid;grid-template-columns:300px minmax(0,1fr);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface);height:640px}
+@media (max-width:880px){.inbox{grid-template-columns:minmax(0,1fr);height:auto}.inbox .thread{height:520px}}
+.contacts{border-right:1px solid var(--line);overflow-y:auto;display:flex;flex-direction:column;min-width:0}
+.contacts .search{padding:10px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--surface)}
+.contacts .search input{width:100%;font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:7px 12px}
+.grp>button.grp-h{width:100%;display:flex;justify-content:space-between;align-items:baseline;gap:8px;text-align:left;background:var(--surface-2);border:0;border-bottom:1px solid var(--line);padding:7px 12px;cursor:pointer}
+.grp-h b{font-size:12px;font-weight:600}
+.grp-h span{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.contact{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:2px 10px;align-items:center;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);padding:9px 12px;cursor:pointer}
+.contact:hover{background:var(--surface-2)}
+.contact[aria-current="true"]{background:var(--accent-soft)}
+.contact .av{grid-row:1/3;width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line);display:grid;place-items:center;font-weight:600;font-size:12px;color:var(--ink-2)}
+.contact .nm{font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contact .pv{grid-column:2;color:var(--ink-3);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contact .un{grid-row:1/3;grid-column:3;background:var(--accent);color:var(--accent-ink);font-size:11px;font-weight:600;border-radius:999px;min-width:20px;text-align:center;padding:1px 6px}
+.thread{display:flex;flex-direction:column;min-width:0;height:100%}
+.thread-head{padding:12px 16px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 12px;align-items:center}
+.thread-head h3{margin:0;font-family:var(--f-display);font-size:19px;font-weight:600}
+.thread .msgs{flex:1}
+.composer{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line);background:var(--surface);flex-wrap:wrap}
+.composer input{flex:1;min-width:140px;font:inherit;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:999px;padding:8px 14px}
+.composer select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 10px;max-width:170px}
+
+/* charts */
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink-2);font-family:var(--f-ui);font-size:11px}
+.chart .grid-l{stroke:var(--line);stroke-width:1}
+.chart .axis-l{stroke:var(--ink-3);stroke-width:1}
+.bar-real{fill:var(--accent)}
+.bar-prev{fill:url(#hatch);stroke:var(--accent);stroke-width:1.2}
+.bar-late{fill:var(--amber)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);margin-top:8px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-2px;border:1px solid var(--accent)}
+.legend i.real{background:var(--accent)}
+.legend i.prev{background:repeating-linear-gradient(45deg,transparent 0 3px,var(--accent) 3px 4px)}
+.legend i.late{background:var(--amber);border-color:var(--amber)}
+.tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--surface);border-radius:8px;padding:6px 10px;font-size:12px;line-height:1.35;box-shadow:var(--shadow);max-width:220px}
+.hbar{display:grid;grid-template-columns:minmax(90px,150px) minmax(0,1fr) 84px;gap:10px;align-items:center;padding:5px 0;font-size:13px}
+.hbar .trk{height:12px;background:var(--surface-2);border-radius:0 6px 6px 0;overflow:hidden}
+.hbar .fill{height:100%;background:var(--accent);border-radius:0 6px 6px 0}
+.slider{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.slider input{accent-color:var(--accent);flex:1;min-width:160px}
+
+/* stepper (contrato) */
+.steps{display:flex;flex-wrap:wrap;gap:6px 18px;margin:0;padding:0;list-style:none;font-size:13px;color:var(--ink-3)}
+.steps li{display:flex;gap:8px;align-items:center}
+.steps li::before{content:attr(data-n);display:grid;place-items:center;width:22px;height:22px;border-radius:50%;border:1px solid var(--line);font-family:var(--f-mono);font-size:11px}
+.steps li.on{color:var(--ink);font-weight:600}
+.steps li.on::before{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.steps li.done::before{content:'✓';background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.sig{width:100%;height:130px;border:1px dashed var(--ink-3);border-radius:8px;background:var(--surface);touch-action:none;cursor:crosshair;display:block}
+.hash{font-family:var(--f-mono);font-size:11.5px;overflow-wrap:anywhere;background:var(--surface-2);border-radius:8px;padding:10px 12px;color:var(--ink-2)}
+.qr{width:150px;height:150px;border:1px solid var(--line);border-radius:8px;background:#fff;display:block;image-rendering:pixelated}
+.pay-opt{display:flex;flex-wrap:wrap;gap:8px}
+.pay-opt button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:600}
+.btn.ghost{background:transparent}
+.ideas{columns:2 280px;column-gap:24px;margin:0;padding-left:18px;color:var(--ink-2)}
+.ideas li{margin-bottom:6px;break-inside:avoid}
+
+.sr{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.msg.human::before{content:attr(data-who)}
+.msg.asst{align-self:flex-end;background:var(--surface-2);border:1px dashed var(--ink-3);border-top-right-radius:4px}
+.msg.asst::before{content:'Assistente (IA)';display:block;font-size:11px;font-weight:600;color:var(--ink-3);margin-bottom:1px}
+.toast{position:fixed;left:50%;bottom:20px;z-index:30}
+.foot{margin-top:8px}
+
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:2px}
+.seg button{border:0;background:transparent;border-radius:8px;padding:6px 8px;font-size:12px;line-height:1.25;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.cportal{min-height:100vh}
+.c-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px 16px;padding:14px clamp(16px,4vw,32px);background:var(--surface);border-bottom:1px solid var(--line)}
+.c-top strong{display:block;font-family:var(--f-display);font-size:21px;font-weight:600}
+.c-top span{color:var(--ink-3);font-size:12px}
+.c-top .seg{min-width:260px}
+.c-wrap{max-width:720px;margin-inline:auto;padding:22px 16px 48px;display:grid;gap:16px}
+.c-hello{margin:0;font-size:17px}
+.c-status{border-color:var(--accent)}
+.c-login{max-width:420px;margin-inline:auto}
+
+.explain{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.explain .ex{background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r,14px) - 2px);padding:12px 14px}
+.explain .ex b{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.explain .ex p{margin:4px 0 0;color:var(--ink-2);font-size:13px}
+.doc-wrap{max-width:900px;display:grid;gap:34px}
+.doc-wrap section>h2{font-family:var(--f-display);font-size:26px;margin:0 0 6px;font-weight:600;text-wrap:balance}
+.doc-wrap .sub{color:var(--ink-3);margin:0 0 14px}
+.doc-hero h2{font-family:var(--f-display);font-size:clamp(28px,4vw,40px);line-height:1.12;margin:6px 0 12px;font-weight:600;text-wrap:balance;max-width:20ch}
+.doc-hero p{max-width:62ch;color:var(--ink-2);font-size:16px}
+.doc-hero .row-actions{margin-top:16px}
+.daylist{display:grid;border-top:1px solid var(--line)}
+.dayrow{display:grid;grid-template-columns:72px minmax(0,1fr) auto;gap:14px;align-items:start;padding:14px 0;border-bottom:1px solid var(--line)}
+.dayrow .mono{color:var(--accent);padding-top:2px}
+.dayrow p{margin:2px 0 0;color:var(--ink-2)}
+@media (max-width:560px){.dayrow{grid-template-columns:minmax(0,1fr)}}
+.modgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.mod{background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r,14px) - 2px);padding:14px;display:grid;gap:6px;align-content:start}
+.mod p{margin:0;color:var(--ink-2);font-size:13px}
+.mod .pill{white-space:normal;justify-self:start}
+.ba{display:grid;gap:8px}
+.ba-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r,14px) - 2px)}
+.ba-a{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line)}
+.ba-b{font-weight:600}
+.ba-arrow{color:var(--accent)}
+@media (max-width:560px){.ba-row{grid-template-columns:minmax(0,1fr)}.ba-arrow{display:none}}
+/* ===== layouts (gerado por gen-layouts.py) ===== */
+[data-layout="1"]{--ground:#E8ECEA;--surface:#F8FAF9;--surface-2:#EEF2F0;--line:#CBD5D1;--ink:#12201D;--ink-2:#4A5C58;--ink-3:#71827E;--accent:#6B1D33;--accent-ink:#FFFFFF;--accent-soft:#EFD9E0;--chat-bg:#DDE5E2;--bubble-bot:#FFFFFF;--bubble-client:#EFD9E0;--f-display:'Newsreader',Georgia,serif;--f-ui:'Instrument Sans',system-ui,sans-serif;--r:14px;--gap:20px;--bp:16px 18px;--fs:14px;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) [data-layout="1"]{--ground:#0A0A0B;--surface:#141416;--surface-2:#1C1C1F;--line:#2D2D31;--ink:#EEECEC;--ink-2:#ABA9AB;--ink-3:#7C7A7E;--accent:#E58BA6;--accent-ink:#2A0D16;--accent-soft:#36151F;--chat-bg:#0E0E10;--bubble-bot:#1E1E21;--bubble-client:#36151F;}}
+:root[data-theme="dark"] [data-layout="1"]{--ground:#0A0A0B;--surface:#141416;--surface-2:#1C1C1F;--line:#2D2D31;--ink:#EEECEC;--ink-2:#ABA9AB;--ink-3:#7C7A7E;--accent:#E58BA6;--accent-ink:#2A0D16;--accent-soft:#36151F;--chat-bg:#0E0E10;--bubble-bot:#1E1E21;--bubble-client:#36151F;}
+[data-layout="2"]{--ground:#E6E6E3;--surface:#F7F7F5;--surface-2:#EEEEEA;--line:#CDCDC7;--ink:#1A1A18;--ink-2:#53534D;--ink-3:#7A7A73;--accent:#8A6417;--accent-ink:#FFFFFF;--accent-soft:#F1E7CF;--chat-bg:#DEDED9;--bubble-bot:#FFFFFF;--bubble-client:#F1E7CF;--f-display:'Cormorant Garamond',Georgia,serif;--f-ui:'Manrope',system-ui,sans-serif;--r:6px;--gap:18px;--bp:16px 18px;--fs:14px;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) [data-layout="2"]{--ground:#111111;--surface:#1A1A19;--surface-2:#222220;--line:#333330;--ink:#EDEDE8;--ink-2:#ABABA3;--ink-3:#7E7E77;--accent:#D9AF57;--accent-ink:#1C1400;--accent-soft:#382E14;--chat-bg:#141413;--bubble-bot:#232321;--bubble-client:#382E14;}}
+:root[data-theme="dark"] [data-layout="2"]{--ground:#111111;--surface:#1A1A19;--surface-2:#222220;--line:#333330;--ink:#EDEDE8;--ink-2:#ABABA3;--ink-3:#7E7E77;--accent:#D9AF57;--accent-ink:#1C1400;--accent-soft:#382E14;--chat-bg:#141413;--bubble-bot:#232321;--bubble-client:#382E14;}
+[data-layout="3"]{--ground:#E5EAF1;--surface:#F7F9FC;--surface-2:#EDF1F7;--line:#C9D3E2;--ink:#0E1A2C;--ink-2:#445570;--ink-3:#6E7F99;--accent:#1E3F73;--accent-ink:#FFFFFF;--accent-soft:#DBE5F4;--chat-bg:#DCE3EE;--bubble-bot:#FFFFFF;--bubble-client:#DBE5F4;--f-display:'Source Serif 4',Georgia,serif;--f-ui:'Source Sans 3',system-ui,sans-serif;--r:10px;--gap:18px;--bp:16px 18px;--fs:15px;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) [data-layout="3"]{--ground:#0A101C;--surface:#111A2B;--surface-2:#172236;--line:#263250;--ink:#E3E9F5;--ink-2:#9FADC8;--ink-3:#7383A3;--accent:#86AEF2;--accent-ink:#071227;--accent-soft:#1B2B4A;--chat-bg:#0D1524;--bubble-bot:#182338;--bubble-client:#1B2B4A;}}
+:root[data-theme="dark"] [data-layout="3"]{--ground:#0A101C;--surface:#111A2B;--surface-2:#172236;--line:#263250;--ink:#E3E9F5;--ink-2:#9FADC8;--ink-3:#7383A3;--accent:#86AEF2;--accent-ink:#071227;--accent-soft:#1B2B4A;--chat-bg:#0D1524;--bubble-bot:#182338;--bubble-client:#1B2B4A;}
+[data-layout="4"]{--ground:#E4EDE8;--surface:#F6FBF8;--surface-2:#ECF4EF;--line:#C6D6CD;--ink:#10241C;--ink-2:#476059;--ink-3:#6F8880;--accent:#2B6A57;--accent-ink:#FFFFFF;--accent-soft:#D3EADF;--chat-bg:#D9E6DF;--bubble-bot:#FFFFFF;--bubble-client:#D3EADF;--f-display:'DM Serif Display',Georgia,serif;--f-ui:'DM Sans',system-ui,sans-serif;--r:22px;--gap:26px;--bp:22px 24px;--fs:15px;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) [data-layout="4"]{--ground:#0B1411;--surface:#121D19;--surface-2:#182621;--line:#26372F;--ink:#E1EEE8;--ink-2:#9DB8AE;--ink-3:#6F8C81;--accent:#6CCBA8;--accent-ink:#05201A;--accent-soft:#163329;--chat-bg:#0E1915;--bubble-bot:#1A2823;--bubble-client:#163329;}}
+:root[data-theme="dark"] [data-layout="4"]{--ground:#0B1411;--surface:#121D19;--surface-2:#182621;--line:#26372F;--ink:#E1EEE8;--ink-2:#9DB8AE;--ink-3:#6F8C81;--accent:#6CCBA8;--accent-ink:#05201A;--accent-soft:#163329;--chat-bg:#0E1915;--bubble-bot:#1A2823;--bubble-client:#163329;}
+[data-layout="5"]{--ground:#E9ECF5;--surface:#FFFFFF;--surface-2:#F1F3FA;--line:#D1D7EA;--ink:#121629;--ink-2:#474F70;--ink-3:#7079A0;--accent:#C2431B;--accent-ink:#FFFFFF;--accent-soft:#FADFD3;--chat-bg:#E0E4F1;--bubble-bot:#FFFFFF;--bubble-client:#FADFD3;--f-display:'Sora',system-ui,sans-serif;--f-ui:'IBM Plex Sans',system-ui,sans-serif;--r:12px;--gap:14px;--bp:12px 14px;--fs:13px;}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) [data-layout="5"]{--ground:#0E1220;--surface:#161B2E;--surface-2:#1D2340;--line:#2B3355;--ink:#E8EBF6;--ink-2:#A6AECB;--ink-3:#7982AA;--accent:#FF9068;--accent-ink:#2B1006;--accent-soft:#3B2418;--chat-bg:#111628;--bubble-bot:#1E2440;--bubble-client:#3B2418;}}
+:root[data-theme="dark"] [data-layout="5"]{--ground:#0E1220;--surface:#161B2E;--surface-2:#1D2340;--line:#2B3355;--ink:#E8EBF6;--ink-2:#A6AECB;--ink-3:#7982AA;--accent:#FF9068;--accent-ink:#2B1006;--accent-soft:#3B2418;--chat-bg:#111628;--bubble-bot:#1E2440;--bubble-client:#3B2418;}
+:root body[data-mode="dark"]{--amber:#F0A24B;--amber-soft:#3A2A12;--ok:#5CC7AB;--ok-soft:#12302A;--bubble-human:#12302A;--shadow:0 1px 2px rgba(0,0,0,.5),0 12px 32px -12px rgba(0,0,0,.7);color-scheme:dark;}
+:root body[data-mode="dark"][data-layout="1"],:root [data-mode="dark"] [data-layout="1"]{--ground:#0A0A0B;--surface:#141416;--surface-2:#1C1C1F;--line:#2D2D31;--ink:#EEECEC;--ink-2:#ABA9AB;--ink-3:#7C7A7E;--accent:#E58BA6;--accent-ink:#2A0D16;--accent-soft:#36151F;--chat-bg:#0E0E10;--bubble-bot:#1E1E21;--bubble-client:#36151F;}
+:root body[data-mode="dark"][data-layout="2"],:root [data-mode="dark"] [data-layout="2"]{--ground:#111111;--surface:#1A1A19;--surface-2:#222220;--line:#333330;--ink:#EDEDE8;--ink-2:#ABABA3;--ink-3:#7E7E77;--accent:#D9AF57;--accent-ink:#1C1400;--accent-soft:#382E14;--chat-bg:#141413;--bubble-bot:#232321;--bubble-client:#382E14;}
+:root body[data-mode="dark"][data-layout="3"],:root [data-mode="dark"] [data-layout="3"]{--ground:#0A101C;--surface:#111A2B;--surface-2:#172236;--line:#263250;--ink:#E3E9F5;--ink-2:#9FADC8;--ink-3:#7383A3;--accent:#86AEF2;--accent-ink:#071227;--accent-soft:#1B2B4A;--chat-bg:#0D1524;--bubble-bot:#182338;--bubble-client:#1B2B4A;}
+:root body[data-mode="dark"][data-layout="4"],:root [data-mode="dark"] [data-layout="4"]{--ground:#0B1411;--surface:#121D19;--surface-2:#182621;--line:#26372F;--ink:#E1EEE8;--ink-2:#9DB8AE;--ink-3:#6F8C81;--accent:#6CCBA8;--accent-ink:#05201A;--accent-soft:#163329;--chat-bg:#0E1915;--bubble-bot:#1A2823;--bubble-client:#163329;}
+:root body[data-mode="dark"][data-layout="5"],:root [data-mode="dark"] [data-layout="5"]{--ground:#0E1220;--surface:#161B2E;--surface-2:#1D2340;--line:#2B3355;--ink:#E8EBF6;--ink-2:#A6AECB;--ink-3:#7982AA;--accent:#FF9068;--accent-ink:#2B1006;--accent-soft:#3B2418;--chat-bg:#111628;--bubble-bot:#1E2440;--bubble-client:#3B2418;}
+:root body[data-mode="light"]{--amber:#9A5200;--amber-soft:#F6E3C8;--ok:#14685A;--ok-soft:#D3EAE3;--bubble-human:#D3EAE3;--shadow:0 1px 2px rgba(18,32,29,.08),0 12px 32px -12px rgba(18,32,29,.22);color-scheme:light;}
+:root body[data-mode="light"][data-layout="1"],:root [data-mode="light"] [data-layout="1"]{--ground:#E8ECEA;--surface:#F8FAF9;--surface-2:#EEF2F0;--line:#CBD5D1;--ink:#12201D;--ink-2:#4A5C58;--ink-3:#71827E;--accent:#6B1D33;--accent-ink:#FFFFFF;--accent-soft:#EFD9E0;--chat-bg:#DDE5E2;--bubble-bot:#FFFFFF;--bubble-client:#EFD9E0;}
+:root body[data-mode="light"][data-layout="2"],:root [data-mode="light"] [data-layout="2"]{--ground:#E6E6E3;--surface:#F7F7F5;--surface-2:#EEEEEA;--line:#CDCDC7;--ink:#1A1A18;--ink-2:#53534D;--ink-3:#7A7A73;--accent:#8A6417;--accent-ink:#FFFFFF;--accent-soft:#F1E7CF;--chat-bg:#DEDED9;--bubble-bot:#FFFFFF;--bubble-client:#F1E7CF;}
+:root body[data-mode="light"][data-layout="3"],:root [data-mode="light"] [data-layout="3"]{--ground:#E5EAF1;--surface:#F7F9FC;--surface-2:#EDF1F7;--line:#C9D3E2;--ink:#0E1A2C;--ink-2:#445570;--ink-3:#6E7F99;--accent:#1E3F73;--accent-ink:#FFFFFF;--accent-soft:#DBE5F4;--chat-bg:#DCE3EE;--bubble-bot:#FFFFFF;--bubble-client:#DBE5F4;}
+:root body[data-mode="light"][data-layout="4"],:root [data-mode="light"] [data-layout="4"]{--ground:#E4EDE8;--surface:#F6FBF8;--surface-2:#ECF4EF;--line:#C6D6CD;--ink:#10241C;--ink-2:#476059;--ink-3:#6F8880;--accent:#2B6A57;--accent-ink:#FFFFFF;--accent-soft:#D3EADF;--chat-bg:#D9E6DF;--bubble-bot:#FFFFFF;--bubble-client:#D3EADF;}
+:root body[data-mode="light"][data-layout="5"],:root [data-mode="light"] [data-layout="5"]{--ground:#E9ECF5;--surface:#FFFFFF;--surface-2:#F1F3FA;--line:#D1D7EA;--ink:#121629;--ink-2:#474F70;--ink-3:#7079A0;--accent:#C2431B;--accent-ink:#FFFFFF;--accent-soft:#FADFD3;--chat-bg:#E0E4F1;--bubble-bot:#FFFFFF;--bubble-client:#FADFD3;}
+
+body{font-size:var(--fs,14px);font-family:var(--f-ui)}
+.grid{gap:var(--gap,20px)}
+.block{padding:var(--bp,16px 18px);border-radius:var(--r,14px)}
+.panel,.inbox{border-radius:var(--r,14px)}
+.qcard{border-radius:calc(var(--r,14px) - 2px)}
+.btn{border-radius:calc(var(--r,14px) * .6)}
+.field input,.field select,.field textarea{border-radius:calc(var(--r,14px) * .6)}
+body[data-layout="3"] .app{grid-template-columns:minmax(0,1fr)}
+body[data-layout="3"] .side{position:sticky;top:0;z-index:10;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;border-right:0;border-bottom:1px solid var(--line);padding:10px 24px;gap:10px 22px}
+body[data-layout="3"] .nav{flex-direction:row;flex-wrap:wrap}
+body[data-layout="3"] .nav hr{display:none}
+body[data-layout="3"] .brand{order:-1}
+body[data-layout="3"] .profile{margin-top:0;border-top:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+body[data-layout="3"] .profile label,body[data-layout="3"] .profile small{display:none}
+body[data-layout="3"] .profile input,body[data-layout="3"] .profile select{width:190px;font:inherit;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;padding:6px 8px;color:var(--ink)}
+body[data-layout="3"] .seg{min-width:260px}
+body[data-layout="5"] .brand span,body[data-layout="5"] .sec-title,body[data-layout="5"] .eyebrow{letter-spacing:.1em}
+body[data-layout="4"] .main{max-width:1100px;margin-inline:auto;width:100%}
+
+/* escolha de layout */
+.lay-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.lay-card{background:var(--ground);color:var(--ink);font-family:var(--f-ui);font-size:var(--fs);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:12px;align-content:start}
+.lay-card[aria-current="true"]{outline:3px solid var(--accent);outline-offset:2px}
+.lay-mock{background:var(--surface);border:1px solid var(--line);border-radius:calc(var(--r) - 2px);display:flex;min-height:190px;overflow:hidden}
+.lay-nav{flex:none;width:44px;background:var(--surface-2);border-right:1px solid var(--line);padding:10px 8px;display:grid;gap:6px;align-content:start}
+.lay-nav i{display:block;height:6px;border-radius:3px;background:var(--line)}
+.lay-nav i:first-child{background:var(--accent)}
+.lay-body{flex:1;padding:12px;display:grid;gap:10px;align-content:start;min-width:0}
+.lay-card[data-layout="3"] .lay-mock{flex-direction:column}
+.lay-card[data-layout="3"] .lay-nav{width:auto;flex-direction:row;display:flex;border-right:0;border-bottom:1px solid var(--line);align-items:center;padding:8px 12px}
+.lay-card[data-layout="3"] .lay-nav i{width:34px}
+.lay-title{font-family:var(--f-display);font-size:20px;font-weight:600;line-height:1.1}
+.lay-kpis{display:flex;gap:14px}
+.lay-kpis small{display:block;color:var(--ink-3);font-size:11px}
+.lay-kpis strong{font-family:var(--f-display);font-size:19px}
+.lay-bars{display:flex;align-items:flex-end;gap:5px;height:44px}
+.lay-bars i{flex:1;background:var(--accent);border-radius:3px 3px 0 0}
+.lay-bars i.p{background:transparent;border:1px dashed var(--accent)}
+.lay-card h3{margin:0;font-family:var(--f-display);font-size:20px;font-weight:600}
+.lay-card p{margin:0;color:var(--ink-2)}
+
+</style>
+<div class="app">
+  <aside class="side">
+    <div class="seg" role="group" aria-label="Ver como"><button type="button" data-portal="adv" aria-pressed="true">Painel da advogada</button><button type="button" data-portal="cli" aria-pressed="false">Painel do cliente</button></div>
+    <div class="brand"><strong>Plantão Jurídico</strong><span>Advocacia criminal</span></div>
+    <nav class="nav" id="nav" aria-label="Seções"></nav>
+    <div class="profile">
+      <label for="p-lay">Layout</label><select id="p-lay"><option value="1">1 · Vinho clássico</option><option value="2">2 · Grafite e latão</option><option value="3">3 · Azul tribunal</option><option value="4">4 · Verde sereno</option><option value="5">5 · Coral moderno</option></select>
+      <label for="p-mode">Tema</label><select id="p-mode"><option value="dark">Escuro</option><option value="light">Claro</option><option value="auto">Automático</option></select>
+      <label for="p-name">Nome da advogada</label><input id="p-name" autocomplete="off" placeholder="Nome da advogada" value="Jéssica Batista Paiva">
+      <label for="p-oab">Inscrição</label><input id="p-oab" autocomplete="off" placeholder="Inscrição na OAB" value="OAB/RJ 237.849">
+      <small>Digite o nome real para personalizar a demonstração. Fica só neste navegador.</small>
+    </div>
+  </aside>
+  <main class="main">
+    <header class="main-head"><div><h1 id="v-title"></h1><p id="v-sub"></p></div><span class="demo-flag">Demonstração · dados fictícios</span></header>
+    <div id="view"></div>
+    <footer class="foot">
+      <span>Escritório, clientes, valores, datas e números de processo são fictícios. Esta demonstração é uma simulação: não está ligada ao WhatsApp, a tribunais nem a meios de pagamento reais.</span>
+      <span>A validade de execução do contrato assinado eletronicamente depende do provedor de assinatura contratado (CPC, art. 784, §4º). Plantão Jurídico é nome de trabalho.</span>
+    </footer>
+  </main>
+</div>
+<div class="cportal" id="cportal" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+(() => {
+'use strict';
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const money = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+const pill = (k, t) => `<span class="pill ${k}">${t}</span>`;
+const pad = n => String(n).padStart(2, '0');
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('pj2:' + k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem('pj2:' + k, JSON.stringify(v)); } catch { /* sem armazenamento */ } }
+};
+
+/* ---------- perfil (nome da advogada, editável) ---------- */
+const profile = Object.assign({name: 'Jéssica Batista Paiva', oab: 'OAB/RJ 237.849'}, store.get('profile', {}));
+const FULL = () => (profile.name || '').trim() || 'Jéssica Batista Paiva';
+const FIRST = () => FULL().split(/\s+/)[0];
+const LAST = () => FULL().split(/\s+/).slice(-1)[0];
+const DRA = () => 'Dra. ' + FULL();
+const T = s => String(s).replaceAll('Dra. Helena Duarte', esc(DRA())).replaceAll('Dra. Helena', esc('Dra. ' + FIRST()));
+
+/* ---------- datas (hoje = segunda, 21/09/2026) ---------- */
+const TODAY = new Date(2026, 8, 21);
+const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const br = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}`;
+const WD = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+/* ---------- número CNJ (dígito verificador módulo 97) ---------- */
+function cnjDV(n7, ano, j, tr, o4) { return pad(Number(98n - (BigInt(n7 + ano + j + tr + o4 + '00') % 97n))); }
+function cnjMake(n7, ano, j, tr, o4) { return `${n7}-${cnjDV(n7, ano, j, tr, o4)}.${ano}.${j}.${tr}.${o4}`; }
+function cnjCheck(txt) {
+  const m = /^(\d{7})-(\d{2})\.(\d{4})\.(\d)\.(\d{2})\.(\d{4})$/.exec(txt.trim());
+  if (!m) return {ok: false, why: 'Formato esperado: 0000000-00.0000.0.00.0000'};
+  const ok = BigInt(m[1] + m[3] + m[4] + m[5] + m[6] + m[2]) % 97n === 1n;
+  return ok ? {ok: true} : {ok: false, why: 'Dígito verificador inválido: confira o número'};
+}
+
+/* ---------- dados fictícios ---------- */
+const GROUPS = [
+  {k: 'drogas', t: 'Art. 33 · Lei 11.343/06 (drogas)'},
+  {k: 'roubo', t: 'Art. 157 · Roubo'},
+  {k: 'furto', t: 'Art. 155 · Furto'},
+  {k: 'homicidio', t: 'Art. 121 · Homicídio'},
+  {k: 'penha', t: 'Lei 11.340/06 · Maria da Penha'},
+  {k: 'lep', t: 'Execução penal · LEP'}
+];
+const CASES = [
+  {id: 1, cnj: cnjMake('0001234', '2026', '8', '26', '0050'), cli: 1, vara: '2ª Vara de Execuções Criminais', st: 'Execução', mov: [
+    {d: '21/09', t: 'Juntado parecer do Ministério Público sobre progressão de regime.', n: 1, k: 'mp'},
+    {d: '12/09', t: 'Protocolado pedido de progressão de regime.', k: 'def'},
+    {d: '02/09', t: 'Atestado de conduta carcerária juntado aos autos.', k: 'out'},
+    {d: '18/08', t: 'Cálculo de pena atualizado pela contadoria.', k: 'out'}]},
+  {id: 2, cnj: cnjMake('0007781', '2026', '8', '26', '0100'), cli: 2, vara: 'Plantão Judiciário · custódia', st: 'Flagrante', mov: [
+    {d: '21/09', t: 'Comunicação de prisão em flagrante recebida.', n: 1}]},
+  {id: 3, cnj: cnjMake('0003390', '2026', '8', '26', '0228'), cli: 3, vara: '1ª Vara Criminal', st: 'Instrução', mov: [
+    {d: '20/09', t: 'Publicada intimação: prazo de 10 dias para resposta à acusação (fim em 01/10).', n: 1},
+    {d: '05/09', t: 'Denúncia recebida.'}]},
+  {id: 4, cnj: cnjMake('0002045', '2025', '8', '26', '0228'), cli: 4, vara: '1ª Vara Criminal', st: 'Instrução', mov: [
+    {d: '15/09', t: 'Designada audiência de instrução para 14/10, às 13h30.', k: 'aud'}]},
+  {id: 5, cnj: cnjMake('0004410', '2026', '8', '26', '0071'), cli: 5, vara: '3ª Vara Criminal', st: 'Instrução', mov: [
+    {d: '21/09', t: 'Audiência de instrução mantida para 22/09, às 10h.', n: 1, k: 'aud'},
+    {d: '10/09', t: 'Testemunhas de defesa intimadas.', k: 'of'}]},
+  {id: 6, cnj: cnjMake('0005512', '2026', '8', '26', '0050'), cli: 6, vara: '5ª Vara Criminal', st: 'Alegações finais', mov: [
+    {d: '17/09', t: 'Aberto prazo de 5 dias para alegações finais da defesa.'}]},
+  {id: 7, cnj: cnjMake('0006623', '2025', '8', '26', '0500'), cli: 7, vara: '1ª Vara do Júri', st: 'Pronúncia', mov: [
+    {d: '11/09', t: 'Concluso para decisão de pronúncia.'}]},
+  {id: 8, cnj: cnjMake('0003001', '2024', '8', '26', '0050'), cli: 8, vara: '2ª Vara de Execuções Criminais', st: 'Execução', mov: [
+    {d: '19/09', t: 'Designada audiência de justificação para 24/09, às 14h30.', k: 'aud'}]},
+  {id: 9, cnj: cnjMake('0008834', '2026', '8', '26', '0004'), cli: 9, vara: 'Vara de Violência Doméstica', st: 'Instrução', mov: [
+    {d: '14/09', t: 'Juntada de laudo. Vista à defesa.'}]}
+];
+const CLIENTS = [
+  {id: 1, nome: 'Marcos Teixeira', g: 'lep', un: 1, msgs: [['c', 'Dra, teve resposta do juiz?', '15:38'], ['b', 'Modo rápido ativo. A Dra. valida o andamento antes de eu enviar.', '15:38']]},
+  {id: 2, nome: 'Rafael Martins Costa', g: 'furto', un: 2, msgs: [['c', 'Meu irmão foi preso agora há pouco. Preciso de um advogado urgente.', '02:14'], ['b', 'Alerta enviado à advogada. Ela retorna por este número.', '02:15']]},
+  {id: 3, nome: 'Diego Nunes', g: 'drogas', un: 0, msgs: [['a', 'Diego, saiu a intimação. Vamos preparar a resposta à acusação.', '20/09'], ['c', 'Beleza doutora, fico no aguardo.', '20/09']]},
+  {id: 4, nome: 'Luana Ribeiro', g: 'drogas', un: 0, msgs: [['c', 'A audiência é dia 14 mesmo?', '15/09'], ['a', 'Sim, 14/10 às 13h30. Envio o roteiro na véspera.', '15/09']]},
+  {id: 5, nome: 'Cláudio Ferraz', g: 'roubo', un: 1, msgs: [['b', 'Lembrete: audiência amanhã às 10h. Chegue 30 minutos antes.', '21/09'], ['c', 'Ok, estarei lá.', '21/09']]},
+  {id: 6, nome: 'Tiago Moura', g: 'furto', un: 0, msgs: [['a', 'Tiago, o boleto da parcela 4 venceu dia 12. Consegue regularizar?', '21/09']]},
+  {id: 7, nome: 'Anderson Pires', g: 'homicidio', un: 0, msgs: [['a', 'Sem novidades hoje. Assim que houver decisão, aviso você.', '18/09']]},
+  {id: 8, nome: 'Paulo Menezes', g: 'lep', un: 0, msgs: [['b', 'Audiência de justificação marcada para 24/09 às 14h30.', '19/09']]},
+  {id: 9, nome: 'Edson Barreto', g: 'penha', un: 0, msgs: [['c', 'Doutora, posso falar com a senhora amanhã?', '14/09'], ['a', 'Pode sim. Peço para a agenda confirmar o horário.', '14/09']]}
+];
+const cliOf = id => CLIENTS.find(c => c.id === id);
+const caseOfCli = id => CASES.find(c => c.cli === id);
+const AGENDA = store.get('agenda', null) || [
+  {date: '2026-09-21', time: '09:30', title: 'Atendimento · Rafael M. Costa (retorno pós-flagrante)', type: 'ate'},
+  {date: '2026-09-21', time: '14:00', title: 'Prazo · resposta à acusação (Diego Nunes)', type: 'pra'},
+  {date: '2026-09-22', time: '10:00', title: 'Audiência de instrução · Cláudio Ferraz', type: 'aud'},
+  {date: '2026-09-23', time: '08:30', title: 'Visita ao cliente · Marcos Teixeira', type: 'ate'},
+  {date: '2026-09-24', time: '14:30', title: 'Audiência de justificação · Paulo Menezes', type: 'aud'},
+  {date: '2026-09-24', time: '17:00', title: 'Prazo · alegações finais (Tiago Moura)', type: 'pra'},
+  {date: '2026-09-25', time: '11:00', title: 'Atendimento · Ana Teixeira (contrato)', type: 'ate'}
+];
+const saveAgenda = () => store.set('agenda', AGENDA);
+const FEED = [
+  {when: 'Hoje 08:12', t: 'Marcos Teixeira: juntado parecer do Ministério Público sobre a progressão de regime.', cid: 1},
+  {when: 'Hoje 07:40', t: 'Cláudio Ferraz: audiência de instrução mantida para 22/09 às 10h.', cid: 5},
+  {when: 'Ontem 17:05', t: 'Diego Nunes: publicada intimação, 10 dias para a resposta à acusação (fim em 01/10).', cid: 3}
+];
+const APPROVALS = [
+  {id: 'a1', kind: 'Mensagem', t: 'Resposta a Marcos: “O parecer do MP foi juntado hoje. Agora falta a decisão do juiz. Aviso assim que houver novidade.”'},
+  {id: 'a2', kind: 'Conteúdo', t: 'Reel de terça: “O que é audiência de custódia” · roteiro pronto'},
+  {id: 'a3', kind: 'Conteúdo', t: 'Reel de quinta: “Prisão em flagrante: o que a família pode fazer” · roteiro pronto'}
+];
+const MONTHS = [
+  {m: 'Abr', real: 14200, prev: 0}, {m: 'Mai', real: 16800, prev: 0}, {m: 'Jun', real: 15100, prev: 0},
+  {m: 'Jul', real: 18400, prev: 0}, {m: 'Ago', real: 19600, prev: 0}, {m: 'Set', real: 12800, prev: 8600, cur: true},
+  {m: 'Out', real: 0, prev: 22800}, {m: 'Nov', real: 0, prev: 21500}, {m: 'Dez', real: 0, prev: 19300},
+  {m: 'Jan', real: 0, prev: 17800}, {m: 'Fev', real: 0, prev: 15400}, {m: 'Mar', real: 0, prev: 12900}
+];
+const RECV = [
+  {c: 'Diego Nunes', p: 'Parcela 3 de 6', d: '05/09', v: 900, f: 'Boleto', s: 'late', x: '16 dias'},
+  {c: 'Cláudio Ferraz', p: 'Parcela 2 de 4', d: '10/09', v: 1200, f: 'Pix Automático', s: 'late', x: 'débito recusado'},
+  {c: 'Tiago Moura', p: 'Parcela 4 de 5', d: '12/09', v: 800, f: 'Boleto', s: 'late', x: '9 dias'},
+  {c: 'Anderson Pires', p: 'Parcela 1 de 4', d: '15/09', v: 1000, f: 'Pix', s: 'late', x: '6 dias'},
+  {c: 'Marcos Teixeira', p: 'Parcela 2 de 5', d: '23/09', v: 1000, f: 'Pix Automático', s: 'soon', x: 'em 2 dias'},
+  {c: 'Luana Ribeiro', p: 'Parcela 4 de 6', d: '25/09', v: 1600, f: 'Cartão recorrente', s: 'soon', x: 'em 4 dias'},
+  {c: 'Paulo Menezes', p: 'Parcela 3 de 4', d: '28/09', v: 2200, f: 'Pix Automático', s: 'soon', x: 'em 7 dias'},
+  {c: 'Edson Barreto', p: 'Parcela 2 de 3', d: '30/09', v: 1800, f: 'Boleto', s: 'soon', x: 'em 9 dias'},
+  {c: 'Diego Nunes', p: 'Parcela 4 de 6', d: '30/09', v: 2000, f: 'Boleto', s: 'soon', x: 'em 9 dias'}
+];
+const BY_GROUP = [['drogas', 34200], ['roubo', 21500], ['homicidio', 18400], ['lep', 15600], ['furto', 9800], ['penha', 7300]];
+const TEMPLATES0 = [
+  {id: 't1', name: 'Habeas corpus (esqueleto)', body: 'EXCELENTÍSSIMO SENHOR DESEMBARGADOR PRESIDENTE DO TRIBUNAL DE JUSTIÇA DO ESTADO DE {{UF}}\n\n{{ADVOGADA}}, {{OAB}}, impetrante, em favor de {{CLIENTE}}, paciente, vem impetrar ORDEM DE HABEAS CORPUS, com pedido liminar, contra ato da autoridade coatora indicada abaixo.\n\nI. DOS FATOS\n{{FATOS}}\n\nII. DO DIREITO\n{{FUNDAMENTOS}}\n\nIII. DO PEDIDO LIMINAR\n{{PEDIDO_LIMINAR}}\n\nIV. DO PEDIDO FINAL\nA concessão definitiva da ordem.\n\n{{CIDADE}}, {{DATA}}.\n{{ADVOGADA}} · {{OAB}}'},
+  {id: 't2', name: 'Relaxamento de prisão em flagrante', body: 'EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DE DIREITO DA {{VARA}}\n\nProcesso nº {{PROCESSO}}\n\n{{CLIENTE}}, já qualificado(a), por sua advogada, vem requerer o RELAXAMENTO DA PRISÃO EM FLAGRANTE, pelos fundamentos a seguir.\n\nI. SÍNTESE DO FLAGRANTE\n{{FATOS}}\n\nII. DA ILEGALIDADE\n{{FUNDAMENTOS}}\n\nIII. DO PEDIDO\n{{PEDIDO}}\n\n{{CIDADE}}, {{DATA}}.\n{{ADVOGADA}} · {{OAB}}'},
+  {id: 't3', name: 'Pedido de progressão de regime', body: 'EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DA {{VARA}}\n\nExecução nº {{PROCESSO}}\n\n{{CLIENTE}}, por sua advogada, requer a PROGRESSÃO DE REGIME, demonstrando:\n\n1. Requisito objetivo: {{FRACAO_CUMPRIDA}}\n2. Requisito subjetivo: {{CONDUTA}}\n3. Documentos anexos: {{ANEXOS}}\n\nRequer a intimação do Ministério Público e o deferimento do pedido.\n\n{{CIDADE}}, {{DATA}}.\n{{ADVOGADA}} · {{OAB}}'},
+  {id: 't4', name: 'Resposta à acusação (esqueleto)', body: 'EXCELENTÍSSIMO(A) SENHOR(A) DOUTOR(A) JUIZ(A) DA {{VARA}}\n\nProcesso nº {{PROCESSO}}\n\n{{CLIENTE}}, por sua advogada, apresenta RESPOSTA À ACUSAÇÃO.\n\nI. PRELIMINARES\n{{PRELIMINARES}}\n\nII. MÉRITO\n{{MERITO}}\n\nIII. ROL DE TESTEMUNHAS\n{{TESTEMUNHAS}}\n\nIV. PEDIDOS\n{{PEDIDOS}}\n\n{{CIDADE}}, {{DATA}}.\n{{ADVOGADA}} · {{OAB}}'},
+  {id: 't5', name: 'Mensagem: lembrete de parcela', body: 'Olá, {{CLIENTE}}. Passando para lembrar que a parcela {{PARCELA}} de {{VALOR}} vence em {{VENCIMENTO}}. Se já pagou, pode desconsiderar. Qualquer dúvida, é só responder aqui. {{ADVOGADA}}'},
+  {id: 't6', name: 'Mensagem: atualização do processo', body: '{{CLIENTE}}, resumo do andamento: {{RESUMO}}. Próximo passo: {{PROXIMO_PASSO}}. Não há previsão de decisão, e assim que houver novidade eu aviso. {{ADVOGADA}}'}
+];
+
+/* ---------- roteador ---------- */
+const VIEWS = {};
+const view = () => $('#view');
+let curView = null, cleanup = null;
+function toast(t) {
+  let el = $('#toast'); if (!el) return;
+  el.textContent = t; el.hidden = false;
+  clearTimeout(toast.h); toast.h = setTimeout(() => { el.hidden = true; }, 2600);
+}
+function refreshNav() {
+  const set = (k, n) => { const b = $(`.nav [data-view="${k}"] .cnt`); if (b) { b.textContent = n; b.hidden = !n; } };
+  set('processos', CASES.reduce((a, c) => a + c.mov.filter(m => m.n).length, 0));
+  set('clientes', CLIENTS.reduce((a, c) => a + c.un, 0));
+  set('hoje', APPROVALS.length);
+}
+function go(name, arg) {
+  if (cleanup) { cleanup(); cleanup = null; }
+  curView = name;
+  const v = VIEWS[name];
+  $('#v-title').textContent = v.title;
+  $('#v-sub').textContent = v.sub();
+  $$('.nav button').forEach(b => b.setAttribute('aria-current', b.dataset.view === name ? 'page' : 'false'));
+  view().innerHTML = '';
+  cleanup = v.render(view(), arg) || null;
+  refreshNav();
+  window.scrollTo({top: 0});
+}
+const eventsOn = d => AGENDA.filter(e => e.date === d).sort((a, b) => a.time.localeCompare(b.time));
+const typeLabel = {aud: 'Audiência', pra: 'Prazo', ate: 'Atendimento'};
+
+/* ---------- Hoje ---------- */
+const audiencia = store.get('audiencia', false);
+VIEWS.hoje = {
+  title: 'Hoje',
+  sub: () => 'Segunda-feira, 21 de setembro de 2026',
+  render(root) {
+    const next7 = [...Array(7)].map((_, i) => iso(addDays(TODAY, i)));
+    const evs = next7.flatMap(d => eventsOn(d));
+    const prazos = evs.filter(e => e.type === 'pra').length;
+    const draw = () => {
+      const aud = store.get('audiencia', false);
+      const nextAud = AGENDA.filter(e => e.type === 'aud' && e.date >= iso(TODAY)).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))[0];
+      root.innerHTML = `
+      <div class="block"><div class="kpi-row">
+        <div class="kpi"><small>Recebido em setembro</small><strong>${money(12800)}</strong><span class="delta up">+ ${money(8600)} previstos até 30/09</span></div>
+        <div class="kpi"><small>Em atraso</small><strong>${money(3900)}</strong><span class="delta down">4 parcelas · régua ativa</span></div>
+        <div class="kpi"><small>Prazos em 7 dias</small><strong>${prazos}</strong><span class="delta">${evs.filter(e => e.type === 'aud').length} audiências na semana</span></div>
+        <div class="kpi"><small>Mensagens sem resposta</small><strong>${CLIENTS.reduce((a, c) => a + c.un, 0)}</strong><span class="delta">${CLIENTS.filter(c => c.un).length} clientes</span></div>
+      </div></div>
+      <div class="grid g-main">
+        <div class="grid">
+          <div class="block"><h2>Compromissos da semana</h2><div class="list">
+            ${evs.slice(0, 7).map(e => `<div class="item"><span class="dot ${e.type}"></span><span class="t">${esc(e.title)}</span><span class="mono">${e.date.slice(8)}/${e.date.slice(5, 7)} · ${e.time}</span><span class="m">${typeLabel[e.type]}</span></div>`).join('')}
+          </div><p class="sub" style="margin:10px 0 0"><button class="btn ghost" data-go="agenda" type="button">Abrir agenda</button></p></div>
+          <div class="block"><h2>Atualizações dos processos</h2><p class="sub">Vieram do monitoramento (exemplo). Você não precisa abrir tribunal nenhum.</p><div class="list">
+            ${FEED.map(f => `<div class="item"><span class="dot pra"></span><span class="t">${esc(f.t)}</span><button class="btn" data-case="${f.cid}" type="button">Abrir</button><span class="m">${f.when}</span></div>`).join('')}
+          </div></div>
+        </div>
+        <div class="grid">
+          <div class="block"><h2>Aguardando sua aprovação</h2>
+            ${APPROVALS.length ? `<div class="list">${APPROVALS.map(a => `<div class="item"><span class="pill ${a.kind === 'Mensagem' ? 'acc' : 'mute'}">${a.kind}</span><span class="t">${esc(a.t)}</span><button class="btn primary" data-ok="${a.id}" type="button">Aprovar</button></div>`).join('')}</div>` : '<p class="note">Nada pendente. O assistente só envia depois da sua aprovação.</p>'}
+          </div>
+          <div class="block"><h2>Modo audiência</h2>
+            <label class="switch"><input type="checkbox" id="aud-sw" ${aud ? 'checked' : ''}><span>Resposta automática quando eu estiver em audiência</span></label>
+            <p class="note" style="margin-top:10px">${aud
+              ? `<b>Ativo.</b> Quem escrever recebe: “A ${esc(DRA())} está em audiência${nextAud ? ` (próxima: ${nextAud.date.slice(8)}/${nextAud.date.slice(5, 7)} às ${nextAud.time})` : ''}. Sua mensagem foi registrada e ela responde ao sair. Se for urgência de prisão, responda URGENTE.”`
+              : 'Desligado. Ligado, o sistema lê a agenda e avisa quem escreve, sem você tocar no celular.'}</p>
+          </div>
+        </div>
+      </div>`;
+    };
+    draw();
+    root.onchange = e => { if (e.target.id === 'aud-sw') { store.set('audiencia', e.target.checked); draw(); toast(e.target.checked ? 'Modo audiência ligado' : 'Modo audiência desligado'); } };
+    root.onclick = e => {
+      const g = e.target.closest('[data-go]'); if (g) return go(g.dataset.go);
+      const c = e.target.closest('[data-case]'); if (c) return go('processos', +c.dataset.case);
+      const ok = e.target.closest('[data-ok]');
+      if (ok) { const i = APPROVALS.findIndex(a => a.id === ok.dataset.ok); if (i >= 0) APPROVALS.splice(i, 1); draw(); refreshNav(); toast('Aprovado e enviado'); }
+    };
+  }
+};
+
+/* ---------- Agenda ---------- */
+let gcal = false;
+VIEWS.agenda = {
+  title: 'Agenda',
+  sub: () => 'Semana de 21 a 27 de setembro',
+  render(root) {
+    const days = [...Array(7)].map((_, i) => addDays(TODAY, i));
+    const draw = () => {
+      root.innerHTML = `
+      <div class="block"><div class="week">
+        ${days.map((d, i) => `<div class="day ${i === 0 ? 'today' : ''}"><h3>${WD[d.getDay()]} ${br(d)}</h3>
+          ${eventsOn(iso(d)).map(e => `<div class="ev ${e.type}"><b>${e.time} · ${typeLabel[e.type]}</b>${esc(e.title.replace(/^[^·]*· /, ''))}</div>`).join('') || '<span class="pending">livre</span>'}</div>`).join('')}
+      </div></div>
+      <div class="grid g2">
+        <form class="block" id="ev-form"><h2>Novo compromisso</h2><div class="grid" style="gap:12px">
+          <div class="field"><label for="ev-t">O quê</label><input id="ev-t" required placeholder="Ex.: Audiência · nome do cliente"></div>
+          <div class="form-row">
+            <div class="field"><label for="ev-d">Dia</label><select id="ev-d">${days.map(d => `<option value="${iso(d)}">${WD[d.getDay()]} ${br(d)}</option>`).join('')}</select></div>
+            <div class="field"><label for="ev-h">Hora</label><input id="ev-h" type="time" value="10:00"></div>
+            <div class="field"><label for="ev-y">Tipo</label><select id="ev-y"><option value="aud">Audiência</option><option value="pra">Prazo</option><option value="ate">Atendimento</option></select></div>
+          </div>
+          <div><button class="btn primary" type="submit">Adicionar à agenda</button></div></div></form>
+        <div class="block"><h2>Sua agenda eletrônica</h2>
+          <p class="note">Ela conecta a agenda que já usa e o sistema passa a ler e escrever nela. <b>Em produção:</b> autorização por login do Google ou Outlook, sem senha compartilhada.</p>
+          <div class="row-actions" style="margin-top:12px"><button class="btn ${gcal ? '' : 'primary'}" id="gcal" type="button">${gcal ? 'Google Agenda conectada (simulação)' : 'Conectar Google Agenda'}</button></div>
+          <p class="sub" style="margin-top:12px">Prazos lidos de intimações entram sozinhos, com sua confirmação. Audiências ligam o modo audiência.</p>
+        </div>
+      </div>`;
+    };
+    draw();
+    root.onsubmit = e => {
+      e.preventDefault();
+      const t = $('#ev-t').value.trim(); if (!t) return;
+      AGENDA.push({date: $('#ev-d').value, time: $('#ev-h').value || '09:00', title: t, type: $('#ev-y').value});
+      saveAgenda(); draw(); toast('Compromisso adicionado');
+    };
+    root.onclick = e => { if (e.target.id === 'gcal') { gcal = !gcal; draw(); toast(gcal ? 'Agenda conectada (simulação)' : 'Agenda desconectada'); } };
+  }
+};
+
+/* ---------- Processos + leitor de casos ---------- */
+const DOCS = {
+  1: {date: new Date(2026, 8, 21), text: 'PODER JUDICIÁRIO · 2ª VARA DE EXECUÇÕES CRIMINAIS\n\nDESPACHO\n\nVista ao Ministério Público pelo prazo de 5 (cinco) dias para manifestação sobre o pedido de progressão de regime. Após, intime-se a defesa para, querendo, manifestar-se no prazo de 3 (três) dias. Em seguida, conclusos.\n\nSão Paulo, 21 de setembro de 2026.'},
+  3: {date: new Date(2026, 8, 20), text: 'PODER JUDICIÁRIO · 1ª VARA CRIMINAL\n\nINTIMAÇÃO\n\nFica a defesa intimada da decisão que recebeu a denúncia, para apresentar resposta à acusação no prazo de 10 (dez) dias.\n\nSão Paulo, 20 de setembro de 2026.'}
+};
+
+/* ---------- cumprimento da pena (percentual, como no sistema de execução) ---------- */
+const PENA = store.get('pena', null) || {1: {tot: 4380, cum: 1925, frac: 50}, 8: {tot: 2920, cum: 1155, frac: 40}};
+const ymd = d => { d = Math.max(0, Math.round(d)); const y = Math.floor(d / 365), r = d % 365; return `${y}a ${Math.floor(r / 30)}m ${r % 30}d`; };
+const split = d => { d = Math.max(0, Math.round(d)); const r = d % 365; return [Math.floor(d / 365), Math.floor(r / 30), r % 30]; };
+const fullDate = d => `${pad(d.getDate())}/${pad(d.getMonth() + 1)}/${d.getFullYear()}`;
+function penaOut(p) {
+  const calc = Math.min(100, p.cum / p.tot * 100), pct = p.sys ? Math.min(100, +p.sys) : calc, left = p.tot * (p.frac - pct) / 100, R = 34, C = 2 * Math.PI * R;
+  const goal = left <= 0 ? `A fração de <b>${p.frac}%</b> já foi atingida. Confirme o pedido.` : `Atinge <b>${p.frac}%</b> em ${ymd(left)}, por volta de <b>${fullDate(addDays(TODAY, left))}</b>.`;
+  return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <svg width="92" height="92" viewBox="0 0 92 92" role="img" aria-label="${pct.toFixed(0)}% da pena cumprida"><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--line)" stroke-width="9"/><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}" transform="rotate(-90 46 46)"/><text x="46" y="51" text-anchor="middle" style="fill:var(--ink);font-family:var(--f-display);font-size:19px;font-weight:600">${pct.toFixed(0)}%</text></svg>
+    <dl class="fields" style="grid-template-columns:80px 1fr;flex:1;min-width:180px"><dt>Total</dt><dd>${ymd(p.tot)}</dd><dt>Cumprida</dt><dd>${ymd(p.cum)}</dd><dt>Restante</dt><dd>${ymd(p.tot - p.cum)}</dd></dl></div>
+    ${p.sys ? `<p class="legend">Usando o percentual de ${pct}% informado pelo sistema oficial. Cálculo simplificado daqui: ${calc.toFixed(1)}%.</p>` : ''}
+    <p class="note" style="margin-top:10px">${goal}</p>`;
+}
+function penaBlock(p) {
+  const [ta, tm, td] = split(p.tot), [ca, cm, cd] = split(p.cum);
+  const num = (id, v, l) => `<div class="field"><label for="${id}">${l}</label><input id="${id}" type="number" min="0" value="${v}"></div>`;
+  return `<div class="block"><h2>Cumprimento da pena</h2><p class="sub">O mesmo percentual que ela confere hoje no sistema de execução, calculado aqui.</p>
+    <div id="pena-out">${penaOut(p)}</div>
+    <p class="sec-title" style="margin-top:14px">Pena total e já cumprida</p>
+    <div class="form-row" style="grid-template-columns:repeat(6,minmax(0,1fr))">${num('pn-ta', ta, 'Total · anos')}${num('pn-tm', tm, 'meses')}${num('pn-td', td, 'dias')}${num('pn-ca', ca, 'Cumprida · anos')}${num('pn-cm', cm, 'meses')}${num('pn-cd', cd, 'dias')}</div>
+    <div class="form-row" style="margin-top:10px;max-width:520px"><div class="field"><label for="pn-p">% mostrado no sistema (opcional)</label><input id="pn-p" type="number" min="0" max="100" value="${p.sys || ''}" placeholder="ex.: 36"></div><div class="field"><label for="pn-f">Fração aplicável (ela define)</label><select id="pn-f">${[16, 20, 25, 30, 40, 50, 60, 70].map(f => `<option value="${f}" ${f === p.frac ? 'selected' : ''}>${f}%</option>`).join('')}</select></div></div>
+    <p class="legend">Cálculo simplificado de exemplo: ano de 365 dias e mês de 30. Não considera detração nem remição. Os números são digitados por ela ou importados do sistema de execução quando houver acesso autorizado.</p></div>`;
+}
+
+let selCase = 1, movFilter = 'all';
+const MK = {mp: 'Membro MP', def: 'Defensor', aud: 'Audiência', of: 'Oficial de Justiça', out: 'Outros'};
+VIEWS.processos = {
+  title: 'Processos',
+  sub: () => `${CASES.length} monitorados · atualizações chegam sem você abrir tribunal`,
+  render(root, arg) {
+    if (arg) selCase = arg;
+    const pendingExtract = new Set();
+    const draw = () => {
+      const c = CASES.find(x => x.id === selCase) || CASES[0];
+      const cl = cliOf(c.cli), doc = DOCS[c.id];
+      c.mov.forEach(m => { m.seen = true; });
+      const body = doc ? doc.text.replace(/(\d+) \(([a-zç]+)\) dias/g, (m) => `<mark>${m}</mark>`) : '';
+      root.innerHTML = `
+      <div class="grid g-main">
+        <div class="grid">
+          <form class="block" id="add-form"><h2>Adicionar processo para monitorar</h2>
+            <p class="sub">Cole o número do processo. O sistema confere o dígito verificador antes de cadastrar.</p>
+            <div class="form-row">
+              <div class="field" style="grid-column:span 2"><label for="cnj">Número (padrão CNJ)</label><input id="cnj" class="mono" placeholder="0000000-00.0000.0.00.0000" autocomplete="off"><span class="hint" id="cnj-h">&nbsp;</span></div>
+              <div class="field"><label for="cnj-c">Cliente</label><select id="cnj-c">${CLIENTS.map(x => `<option value="${x.id}">${esc(x.nome)}</option>`).join('')}</select></div>
+            </div>
+            <div style="margin-top:12px"><button class="btn primary" type="submit">Monitorar processo</button></div>
+          </form>
+          <div class="block"><h2>Seus processos</h2><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Processo</th><th>Cliente</th><th>Fase</th><th></th></tr></thead><tbody>
+            ${CASES.map(x => `<tr class="clickable" data-c="${x.id}" ${x.id === c.id ? 'aria-selected="true"' : ''}><td class="mono">${x.cnj}</td><td>${esc(cliOf(x.cli).nome)}</td><td>${esc(x.st)}</td><td>${x.mov.some(m => m.n) ? pill('acc', 'novo') : x.pend ? pill('mute', 'ativando…') : pill('ok', 'monitorado')}</td></tr>`).join('')}
+          </tbody></table></div></div>
+        </div>
+        <div class="grid">
+          <div class="block"><h2>${esc(cl.nome)}</h2><p class="sub"><span class="mono">${c.cnj}</span><br>${esc(c.vara)}</p>
+            <p class="sec-title">Resumo do assistente <span class="pill mute">rascunho</span></p>
+            <p style="margin:0 0 10px">${c.mov.length ? esc(c.mov[0].t) + ' ' : ''}Esta é uma leitura automática dos andamentos. Confira antes de repassar.</p>
+            <div class="row-actions"><button class="btn primary" data-act="draft" type="button">Preparar mensagem ao cliente</button></div>
+          </div>
+          ${PENA[c.id] ? penaBlock(PENA[c.id]) : ''}
+          <div class="block"><h2>Andamentos</h2>
+            <div class="row-actions" style="margin-bottom:8px">${['all', ...Object.keys(MK)].filter(k => k === 'all' || c.mov.some(m => m.k === k)).map(k => `<button class="chip" data-mf="${k}" type="button" ${movFilter === k ? 'style="background:var(--accent-soft)"' : ''}>${k === 'all' ? 'Todos' : MK[k]}</button>`).join('')}</div>
+            <ul class="timeline">
+            ${c.mov.filter(m => movFilter === 'all' || m.k === movFilter).map(m => `<li><time>${m.d}</time><span class="${m.n ? 'new' : ''}">${esc(m.t)}</span></li>`).join('') || '<li><time>—</time><span class="pending">Sem andamentos ainda</span></li>'}
+          </ul></div>
+          <div class="block"><h2>Leitor de peças</h2>
+            ${doc ? `<div class="paper" id="paper">${body}</div>
+              <div class="row-actions" style="margin-top:10px"><button class="btn primary" data-act="extract" type="button" ${pendingExtract.has(c.id) || c.extracted ? 'disabled' : ''}>${c.extracted ? 'Prazos já na agenda' : 'Extrair prazos para a agenda'}</button></div>
+              <p class="legend">Prazos estimados a partir do texto. Confirme a contagem antes de confiar.</p>`
+              : '<p class="note">Nenhuma peça anexada neste caso. Em produção, intimações e decisões aparecem aqui já lidas.</p>'}
+          </div>
+          <div class="block"><h2>Anotações privadas</h2><div class="field"><label for="nota" class="sr">Anotações</label><textarea id="nota" rows="3" placeholder="Estratégia, pendências, lembretes…">${esc(store.get('nota' + c.id, ''))}</textarea></div></div>
+        </div>
+      </div>`;
+    };
+    draw();
+    root.oninput = e => {
+      if (e.target.id === 'nota') store.set('nota' + selCase, e.target.value);
+      if (e.target.id && e.target.id.startsWith('pn-') && PENA[selCase]) {
+        const g = id => $('#' + id).value, p = PENA[selCase];
+        p.tot = Math.max(1, (+g('pn-ta') || 0) * 365 + (+g('pn-tm') || 0) * 30 + (+g('pn-td') || 0));
+        p.cum = Math.max(0, (+g('pn-ca') || 0) * 365 + (+g('pn-cm') || 0) * 30 + (+g('pn-cd') || 0));
+        p.sys = +g('pn-p') || 0;
+        store.set('pena', PENA); $('#pena-out').innerHTML = penaOut(p);
+      }
+      if (e.target.id === 'cnj') {
+        const h = $('#cnj-h'), v = e.target.value.trim();
+        if (!v) { h.className = 'hint'; h.innerHTML = '&nbsp;'; return; }
+        const r = cnjCheck(v); h.className = 'hint ' + (r.ok ? 'good' : 'bad'); h.textContent = r.ok ? 'Número válido' : r.why;
+      }
+    };
+    root.onchange = e => { if (e.target.id === 'pn-f' && PENA[selCase]) { PENA[selCase].frac = +e.target.value; store.set('pena', PENA); $('#pena-out').innerHTML = penaOut(PENA[selCase]); } };
+    root.onsubmit = e => {
+      e.preventDefault();
+      const v = $('#cnj').value.trim(), r = cnjCheck(v);
+      if (!r.ok) { $('#cnj-h').className = 'hint bad'; $('#cnj-h').textContent = r.why || 'Confira o número'; return; }
+      if (CASES.some(x => x.cnj === v)) { toast('Esse processo já está monitorado'); return; }
+      const nc = {id: CASES.length + 1, cnj: v, cli: +$('#cnj-c').value, vara: 'a localizar', st: 'Novo', pend: true, mov: []};
+      CASES.push(nc); selCase = nc.id; draw();
+      setTimeout(() => {
+        nc.pend = false; nc.vara = 'Vara localizada (exemplo)'; nc.st = 'Em andamento';
+        nc.mov.push({d: br(TODAY), t: 'Processo localizado. Monitoramento ativo: você será avisada de qualquer andamento.', n: 1});
+        FEED.unshift({when: 'Agora', t: `${cliOf(nc.cli).nome}: processo cadastrado e monitorado.`, cid: nc.id});
+        refreshNav(); if (curView === 'processos') draw(); toast('Processo localizado e monitorado');
+      }, 2200);
+    };
+    root.onclick = e => {
+      const tr = e.target.closest('tr[data-c]'); if (tr) { selCase = +tr.dataset.c; CASES.find(x => x.id === selCase).mov.forEach(m => { m.n = 0; }); refreshNav(); draw(); return; }
+      const mf = e.target.closest('[data-mf]'); if (mf) { movFilter = mf.dataset.mf; draw(); return; }
+      const a = e.target.closest('[data-act]'); if (!a) return;
+      const c = CASES.find(x => x.id === selCase);
+      if (a.dataset.act === 'draft') {
+        APPROVALS.unshift({id: 'a' + Date.now(), kind: 'Mensagem', t: `Resposta a ${cliOf(c.cli).nome}: “${c.mov[0] ? c.mov[0].t : 'Sem novidades.'} Aviso quando houver decisão.”`});
+        refreshNav(); toast('Rascunho enviado para a sua aprovação em Hoje');
+      }
+      if (a.dataset.act === 'extract') {
+        const doc = DOCS[c.id], nums = {cinco: 5, três: 3, dez: 10};
+        const found = [...doc.text.matchAll(/(\d+) \(([a-zç]+)\) dias/g)].map(m => +m[1]);
+        found.forEach((n, i) => {
+          const end = addDays(doc.date, c.id === 1 && i === 1 ? found[0] + n : n);
+          AGENDA.push({date: iso(end), time: '17:00', type: 'pra', title: `Prazo · ${i === 0 && c.id === 1 ? 'parecer do MP' : c.id === 1 ? 'manifestação da defesa' : 'resposta à acusação'} (${cliOf(c.cli).nome}, estimado)`});
+        });
+        c.extracted = true; saveAgenda(); draw(); toast(`${found.length} prazo(s) adicionados à agenda`);
+      }
+    };
+  }
+};
+
+/* ---------- modelos (compartilhado com Clientes) ---------- */
+let TEMPLATES = store.get('tpl', null) || TEMPLATES0.map(t => ({...t}));
+const saveTpl = () => store.set('tpl', TEMPLATES);
+function fillTpl(body, cli, cs) {
+  const map = {
+    CLIENTE: cli ? cli.nome : '{{CLIENTE}}', ADVOGADA: DRA(), OAB: profile.oab || 'OAB/UF 000.000',
+    PROCESSO: cs ? cs.cnj : '{{PROCESSO}}', VARA: cs ? cs.vara : '{{VARA}}', DATA: '21/09/2026', CIDADE: 'Cidade'
+  };
+  return body.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => (k in map ? map[k] : m));
+}
+async function copyText(txt) {
+  try { await navigator.clipboard.writeText(txt); return true; }
+  catch {
+    const ta = document.createElement('textarea'); ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    let ok = false; try { ok = document.execCommand('copy'); } catch { ok = false; }
+    ta.remove(); return ok;
+  }
+}
+
+/* ---------- Clientes (caixa de entrada por artigo) ---------- */
+let selCli = 1, cliQuery = '';
+const closedGrp = new Set();
+const bubbleKind = {c: 'bot', a: 'client', b: 'asst'};
+VIEWS.clientes = {
+  title: 'Clientes',
+  sub: () => 'Conversas separadas por artigo · dados fictícios',
+  render(root, arg) {
+    if (arg) selCli = arg;
+    const draw = (keepSearch) => {
+      const cl = cliOf(selCli), cs = caseOfCli(cl.id), grp = GROUPS.find(g => g.k === cl.g);
+      const q = cliQuery.toLowerCase();
+      const list = GROUPS.map(g => {
+        const items = CLIENTS.filter(c => c.g === g.k && c.nome.toLowerCase().includes(q));
+        if (!items.length) return '';
+        const un = items.reduce((a, c) => a + c.un, 0);
+        return `<div class="grp"><button class="grp-h" data-g="${g.k}" type="button" aria-expanded="${!closedGrp.has(g.k)}"><b>${esc(g.t)}</b><span>${items.length}${un ? ' · ' + un + ' nova(s)' : ''}</span></button>
+          ${closedGrp.has(g.k) ? '' : items.map(c => {
+            const last = c.msgs[c.msgs.length - 1];
+            const ini = c.nome.split(' ').map(w => w[0]).slice(0, 2).join('');
+            return `<button class="contact" data-cli="${c.id}" type="button" ${c.id === selCli ? 'aria-current="true"' : ''}><span class="av">${ini}</span><span class="nm">${esc(c.nome)}</span><span class="pv">${esc(last[1])}</span>${c.un ? `<span class="un">${c.un}</span>` : ''}</button>`;
+          }).join('')}</div>`;
+      }).join('') || '<p class="note" style="margin:12px">Ninguém encontrado.</p>';
+      const tplOpts = TEMPLATES.filter(t => t.name.startsWith('Mensagem')).map(t => `<option value="${t.id}">${esc(t.name.replace('Mensagem: ', ''))}</option>`).join('');
+      root.innerHTML = `
+      <div class="inbox">
+        <div class="contacts"><div class="search"><input id="q" type="search" placeholder="Buscar cliente" value="${esc(cliQuery)}" aria-label="Buscar cliente"></div>${list}</div>
+        <div class="thread">
+          <div class="thread-head"><div><h3>${esc(cl.nome)}</h3><span class="mono">${cs ? cs.cnj : ''}</span></div>
+            <div class="row-actions">${pill('acc', esc(grp.t))}${cs ? '<button class="btn" data-open="' + cs.id + '" type="button">Ver processo</button>' : ''}</div></div>
+          <div class="msgs" id="tmsgs">${cl.msgs.map(m => `<div class="msg ${bubbleKind[m[0]]}">${esc(m[1])}<time>${m[2]}</time></div>`).join('')}</div>
+          <form class="composer" id="composer">
+            <select id="tpl" aria-label="Inserir modelo"><option value="">Modelo…</option>${tplOpts}</select>
+            <input id="txt" placeholder="Escreva uma resposta" autocomplete="off" aria-label="Mensagem">
+            <button class="btn primary" type="submit">Enviar</button>
+          </form>
+        </div>
+      </div>
+      <p class="legend">Cada conversa fica ligada ao processo e ao artigo. Respostas do assistente aparecem tracejadas. Em produção, este acesso exige login com verificação em duas etapas.</p>`;
+      const m = $('#tmsgs'); if (m) m.scrollTop = m.scrollHeight;
+      if (keepSearch) { const qi = $('#q'); qi.focus(); qi.setSelectionRange(qi.value.length, qi.value.length); }
+    };
+    draw();
+    root.oninput = e => { if (e.target.id === 'q') { cliQuery = e.target.value; draw(true); } };
+    root.onchange = e => {
+      if (e.target.id === 'tpl' && e.target.value) {
+        const t = TEMPLATES.find(x => x.id === e.target.value), cl = cliOf(selCli);
+        $('#txt').value = fillTpl(t.body, cl, caseOfCli(cl.id)); e.target.value = ''; $('#txt').focus();
+      }
+    };
+    root.onsubmit = e => {
+      e.preventDefault();
+      const v = $('#txt').value.trim(); if (!v) return;
+      const cl = cliOf(selCli); cl.msgs.push(['a', v, '15:55']); cl.un = 0; draw(); refreshNav(); toast('Mensagem enviada (simulação)');
+    };
+    root.onclick = e => {
+      const c = e.target.closest('[data-cli]'); if (c) { selCli = +c.dataset.cli; cliOf(selCli).un = 0; draw(); refreshNav(); return; }
+      const g = e.target.closest('[data-g]'); if (g) { closedGrp.has(g.dataset.g) ? closedGrp.delete(g.dataset.g) : closedGrp.add(g.dataset.g); draw(); return; }
+      const o = e.target.closest('[data-open]'); if (o) go('processos', +o.dataset.open);
+    };
+  }
+};
+
+/* ---------- Financeiro ---------- */
+const NS = 'http://www.w3.org/2000/svg';
+function topRound(x, y, w, h, r) {
+  r = Math.min(r, h, w / 2);
+  return `M${x},${y + h}V${y + r}Q${x},${y} ${x + r},${y}H${x + w - r}Q${x + w},${y} ${x + w},${y + r}V${y + h}Z`;
+}
+function tip() {
+  let t = $('#tip');
+  if (!t) { t = document.createElement('div'); t.id = 'tip'; t.className = 'tip'; t.hidden = true; document.body.appendChild(t); }
+  return t;
+}
+VIEWS.financeiro = {
+  title: 'Financeiro',
+  sub: () => 'Entradas, previsões e inadimplência · valores fictícios',
+  render(root) {
+    let p = 0;
+    const compute = () => MONTHS.map(m => ({...m, prevAdj: m.prev * (1 - p / 100)}));
+    const draw = () => {
+      const ms = compute();
+      const fut = ms.slice(6).reduce((a, m) => a + m.prevAdj, 0) + ms[5].prevAdj;
+      const avg = MONTHS.slice(0, 5).reduce((a, m) => a + m.real, 0) / 5;
+      root.innerHTML = `
+      <div class="block"><div class="kpi-row">
+        <div class="kpi"><small>Recebido em setembro</small><strong>${money(12800)}</strong><span class="delta up">60% do previsto para o mês</span></div>
+        <div class="kpi"><small>A receber até 30/09</small><strong id="k-next">${money(ms[5].prevAdj)}</strong><span class="delta">5 parcelas</span></div>
+        <div class="kpi"><small>Em atraso</small><strong>${money(3900)}</strong><span class="delta down">4 parcelas</span></div>
+        <div class="kpi"><small>Inadimplência (90 dias)</small><strong>9,4%</strong><span class="delta">parcelas vencidas há mais de 5 dias</span></div>
+        <div class="kpi"><small>Previsto até março</small><strong id="k-fut">${money(fut)}</strong><span class="delta" id="k-futd">com ${p}% de atraso</span></div>
+      </div></div>
+      <div class="grid g-main">
+        <div class="block"><h2>Entradas por mês</h2><p class="sub">Abril a setembro é o que entrou. Outubro em diante é o que já está contratado.</p>
+          <svg class="chart" id="ch" viewBox="0 0 640 250" role="img" aria-label="Recebido e previsto por mês"></svg>
+          <div class="legend"><span><i class="real"></i>Recebido</span><span><i class="prev"></i>Previsto (contratos atuais)</span></div>
+          <div class="slider" style="margin-top:14px"><label for="inad">E se <b id="pv">${p}%</b> das parcelas atrasarem?</label><input id="inad" type="range" min="0" max="30" value="${p}"></div>
+          <p class="note" style="margin-top:12px">A previsão cai depois de dezembro porque só conta contratos já assinados. Para manter a média de ${money(avg)} por mês, faltam cerca de <b>4 contratos novos</b> até março.</p>
+        </div>
+        <div class="grid">
+          <div class="block"><h2>Receita contratada por artigo</h2><div id="hb"></div></div>
+          <div class="block"><h2>Como os clientes pagam</h2>
+            ${[['Pix Automático', 46], ['Cartão recorrente', 27], ['Boleto', 19], ['Pix avulso', 8]].map(([n, v]) => `<div class="hbar"><span>${n}</span><span class="trk"><span class="fill" style="display:block;width:${v * 2}%"></span></span><span class="mono">${v}%</span></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="block"><h2>Atrasadas e próximas entradas</h2><div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Cliente</th><th>Parcela</th><th>Vence</th><th>Valor</th><th>Forma</th><th>Situação</th><th></th></tr></thead><tbody>
+        ${RECV.map((r, i) => `<tr><td>${esc(r.c)}</td><td>${r.p}</td><td class="mono">${r.d}</td><td class="mono">${money(r.v)}</td><td>${r.f}</td><td>${r.s === 'late' ? pill('amber', 'Atrasada · ' + r.x) : pill('mute', 'A vencer · ' + r.x)}</td><td>${r.s === 'late' ? `<button class="btn" data-cob="${i}" type="button">Cobrar agora</button>` : ''}</td></tr>`).join('')}
+      </tbody></table></div></div>`;
+      chart(ms);
+      const SHORT = {drogas: 'Art. 33 · Drogas', roubo: 'Art. 157 · Roubo', homicidio: 'Art. 121 · Homicídio', lep: 'Execução penal', furto: 'Art. 155 · Furto', penha: 'Maria da Penha'};
+      $('#hb').innerHTML = BY_GROUP.map(([k, v]) => `<div class="hbar"><span>${SHORT[k]}</span><span class="trk"><span class="fill" style="display:block;width:${v / 342}%"></span></span><span class="mono">${money(v)}</span></div>`).join('');
+    };
+    function chart(ms) {
+      const svg = $('#ch'), W = 640, H = 250, L = 48, B = 26, Tp = 10, max = 30000;
+      const bw = (W - L - 8) / ms.length, w = 30, y = v => H - B - (v / max) * (H - B - Tp);
+      let s = `<defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" style="fill:var(--surface)"/><line x1="0" y1="0" x2="0" y2="6" style="stroke:var(--accent);stroke-width:2"/></pattern></defs>`;
+      [0, 10000, 20000, 30000].forEach(v => { s += `<line class="grid-l" x1="${L}" x2="${W - 4}" y1="${y(v)}" y2="${y(v)}"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v ? v / 1000 + ' mil' : '0'}</text>`; });
+      ms.forEach((m, i) => {
+        const x = L + i * bw + (bw - w) / 2, hr = (m.real / max) * (H - B - Tp), hp = (m.prevAdj / max) * (H - B - Tp);
+        if (m.real) s += `<path class="bar-real" d="${hp ? `M${x},${H - B}V${H - B - hr}H${x + w}V${H - B}Z` : topRound(x, H - B - hr, w, hr, 4)}"/>`;
+        if (m.prevAdj) { const top = H - B - hr - hp - (m.real ? 2 : 0), h = hp - (m.real ? 0 : 0); s += `<path class="bar-prev" d="${topRound(x, top, w, Math.max(h, 3), 4)}"/>`; }
+        s += `<text x="${x + w / 2}" y="${H - 8}" text-anchor="middle">${m.m}</text>`;
+        s += `<rect class="hit" data-i="${i}" x="${L + i * bw}" y="${Tp}" width="${bw}" height="${H - B - Tp}" fill="transparent"/>`;
+      });
+      s += `<line class="axis-l" x1="${L}" x2="${W - 4}" y1="${H - B}" y2="${H - B}"/>`;
+      svg.innerHTML = s;
+      const t = tip();
+      svg.onmousemove = e => {
+        const h = e.target.closest('.hit'); if (!h) { t.hidden = true; return; }
+        const m = ms[+h.dataset.i];
+        t.innerHTML = `<b>${m.m}</b><br>${m.real ? 'Recebido ' + money(m.real) : ''}${m.real && m.prevAdj ? '<br>' : ''}${m.prevAdj ? 'Previsto ' + money(m.prevAdj) : ''}`;
+        t.hidden = false; t.style.left = Math.min(e.clientX + 14, innerWidth - 230) + 'px'; t.style.top = e.clientY + 14 + 'px';
+      };
+      svg.onmouseleave = () => { t.hidden = true; };
+    }
+    draw();
+    root.oninput = e => {
+      if (e.target.id !== 'inad') return;
+      p = +e.target.value;
+      const ms = compute(), fut = ms.slice(6).reduce((a, m) => a + m.prevAdj, 0) + ms[5].prevAdj;
+      $('#pv').textContent = p + '%'; $('#k-next').textContent = money(ms[5].prevAdj);
+      $('#k-fut').textContent = money(fut); $('#k-futd').textContent = 'com ' + p + '% de atraso';
+      chart(ms);
+    };
+    root.onclick = e => { const b = e.target.closest('[data-cob]'); if (b) toast(`Lembrete enviado a ${RECV[+b.dataset.cob].c} (simulação)`); };
+    return () => { const t = $('#tip'); if (t) t.hidden = true; };
+  }
+};
+
+/* ---------- Modelos ---------- */
+let selTpl = 't1', tplCase = 1;
+VIEWS.modelos = {
+  title: 'Modelos',
+  sub: () => 'Salve uma vez, use em qualquer caso',
+  render(root) {
+    const draw = () => {
+      const t = TEMPLATES.find(x => x.id === selTpl) || TEMPLATES[0], cs = CASES.find(c => c.id === tplCase), cl = cs ? cliOf(cs.cli) : null;
+      const filled = fillTpl(t.body, cl, cs);
+      const fields = [...new Set([...t.body.matchAll(/\{\{([A-Z_]+)\}\}/g)].map(m => m[1]))];
+      root.innerHTML = `
+      <div class="grid" style="grid-template-columns:minmax(0,240px) minmax(0,1fr);align-items:start">
+        <div class="block"><h2>Meus modelos</h2><div class="list">
+          ${TEMPLATES.map(x => `<button class="btn ${x.id === t.id ? 'primary' : ''}" style="text-align:left;margin-bottom:6px" data-t="${x.id}" type="button">${esc(x.name)}</button>`).join('')}
+          <button class="btn ghost" data-new type="button">+ Novo modelo</button>
+        </div></div>
+        <div class="grid">
+          <div class="block"><h2>Editar</h2>
+            <div class="field"><label for="tn">Nome</label><input id="tn" value="${esc(t.name)}"></div>
+            <div class="field" style="margin-top:10px"><label for="tb">Texto (use {{CAMPO}} para o que muda de caso para caso)</label><textarea id="tb" rows="10">${esc(t.body)}</textarea></div>
+            <p class="legend">Campos: ${fields.map(f => `<span class="pill mute">${f}</span>`).join(' ') || 'nenhum'}</p>
+            <div class="row-actions" style="margin-top:8px"><button class="btn primary" data-save type="button">Salvar modelo</button><button class="btn" data-dup type="button">Salvar como novo</button>${TEMPLATES.length > 1 ? '<button class="btn ghost" data-del type="button">Excluir</button>' : ''}</div>
+          </div>
+          <div class="block"><h2>Prévia preenchida</h2>
+            <div class="field" style="max-width:320px;margin-bottom:10px"><label for="tc">Usar dados do caso</label><select id="tc">${CASES.map(c => `<option value="${c.id}" ${c.id === tplCase ? 'selected' : ''}>${esc(cliOf(c.cli).nome)}</option>`).join('')}</select></div>
+            <div class="paper" id="prev">${esc(filled)}</div>
+            <div class="row-actions" style="margin-top:10px"><button class="btn primary" data-copy type="button">Copiar texto</button></div>
+            <p class="legend">Esqueletos de exemplo. A advogada revisa e adapta cada peça antes de usar.</p>
+          </div>
+        </div>
+      </div>`;
+    };
+    draw();
+    const readEd = () => ({name: $('#tn').value.trim() || 'Modelo sem nome', body: $('#tb').value});
+    root.onchange = e => { if (e.target.id === 'tc') { tplCase = +e.target.value; draw(); } };
+    root.onclick = async e => {
+      const b = e.target.closest('button'); if (!b) return;
+      const t = TEMPLATES.find(x => x.id === selTpl);
+      if (b.dataset.t) { selTpl = b.dataset.t; draw(); }
+      else if ('new' in b.dataset) { const n = {id: 't' + Date.now(), name: 'Novo modelo', body: 'Olá, {{CLIENTE}}. '}; TEMPLATES.push(n); selTpl = n.id; saveTpl(); draw(); }
+      else if ('save' in b.dataset) { Object.assign(t, readEd()); saveTpl(); draw(); toast('Modelo salvo'); }
+      else if ('dup' in b.dataset) { const n = {id: 't' + Date.now(), ...readEd()}; n.name += ' (cópia)'; TEMPLATES.push(n); selTpl = n.id; saveTpl(); draw(); toast('Novo modelo criado'); }
+      else if ('del' in b.dataset) { TEMPLATES = TEMPLATES.filter(x => x.id !== selTpl); selTpl = TEMPLATES[0].id; saveTpl(); draw(); toast('Modelo excluído'); }
+      else if ('copy' in b.dataset) { toast(await copyText($('#prev').textContent) ? 'Texto copiado' : 'Não foi possível copiar: selecione o texto e use Ctrl+C'); }
+    };
+    root.oninput = e => {
+      if (e.target.id === 'tb') { const cs = CASES.find(c => c.id === tplCase); $('#prev').textContent = fillTpl(e.target.value, cs ? cliOf(cs.cli) : null, cs); }
+    };
+  }
+};
+
+/* ---------- Contratos: assinatura virtual + cobrança ---------- */
+const CT = {step: 1, f: {contratante: 'Ana Teixeira', benef: 'Marcos Teixeira', total: 6000, entrada: 2000, parcelas: 4, dia: 10}, ink: false, read: false, codeSent: false, id: false, forma: 'pixauto', hash: '', paidEntry: false, auth: false};
+const STEPS = ['Preparar contrato', 'Assinatura do cliente', 'Trilha de auditoria', 'Cobrança', 'Pronto'];
+function contractText(f) {
+  const par = Math.max(1, +f.parcelas), val = (f.total - f.entrada) / par;
+  const fm = {pixauto: 'Pix Automático', cartao: 'cartão de crédito recorrente', boleto: 'boleto bancário'}[CT.forma];
+  return `CONTRATO DE PRESTAÇÃO DE SERVIÇOS ADVOCATÍCIOS (modelo de exemplo)
+
+CONTRATADA: ${DRA()}, ${profile.oab || 'OAB/UF 000.000'}.
+CONTRATANTE: ${f.contratante}.
+BENEFICIÁRIO DOS SERVIÇOS: ${f.benef}.
+
+1. OBJETO. Defesa criminal do beneficiário no processo nº ${CASES[0].cnj}, nas fases descritas no anexo.
+
+2. HONORÁRIOS. R$ ${f.total.toLocaleString('pt-BR')}, sendo R$ ${f.entrada.toLocaleString('pt-BR')} de entrada e ${par} parcela(s) de R$ ${Math.round(val).toLocaleString('pt-BR')}, com vencimento todo dia ${f.dia}. Cada parcela antecede a fase do trabalho que libera.
+
+3. FORMA DE PAGAMENTO. ${fm}, autorizado pelo contratante.
+
+4. ATRASO. Multa de 2% e juros de 1% ao mês. Persistindo o atraso, a contratada poderá adotar as medidas de cobrança permitidas pelo Código de Ética da OAB, após tentativa amigável.
+
+5. SIGILO E DADOS. As informações do caso são sigilosas. Dados pessoais serão tratados conforme a LGPD. O atendimento por mensagem usa assistente de inteligência artificial, sempre supervisionado pela contratada.
+
+6. RENÚNCIA. Em caso de inadimplência, a contratada poderá renunciar ao mandato, respeitado o prazo legal de continuidade da representação.
+
+7. ASSINATURA ELETRÔNICA. As partes reconhecem a validade da assinatura eletrônica e do registro de autoria e integridade.`;
+}
+function qrCanvas(seed) {
+  const n = 25, c = document.createElement('canvas'); c.width = c.height = n * 6; c.className = 'qr';
+  const g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.fillStyle = '#111';
+  let s = seed; const rnd = () => { s |= 0; s = s + 0x6D2B79F5 | 0; let t = Math.imul(s ^ s >>> 15, 1 | s); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const finder = (x, y) => { g.fillRect(x * 6, y * 6, 42, 42); g.fillStyle = '#fff'; g.fillRect((x + 1) * 6, (y + 1) * 6, 30, 30); g.fillStyle = '#111'; g.fillRect((x + 2) * 6, (y + 2) * 6, 18, 18); };
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const inF = (x < 8 && y < 8) || (x > n - 9 && y < 8) || (x < 8 && y > n - 9);
+    if (!inF && rnd() > 0.52) g.fillRect(x * 6, y * 6, 6, 6);
+  }
+  finder(0, 0); finder(n - 7, 0); finder(0, n - 7);
+  return c;
+}
+async function sha256(txt) {
+  try {
+    const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+    return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2, '0')).join('');
+  } catch { return 'indisponível neste navegador'; }
+}
+VIEWS.contratos = {
+  title: 'Contratos',
+  sub: () => 'Simulação: contrato assinado à distância, com a cobrança já ligada',
+  render(root) {
+    const stepper = () => `<ol class="steps">${STEPS.map((s, i) => `<li data-n="${i + 1}" class="${i + 1 === CT.step ? 'on' : i + 1 < CT.step ? 'done' : ''}">${s}</li>`).join('')}</ol>`;
+    const par = () => Math.max(1, +CT.f.parcelas), parVal = () => (CT.f.total - CT.f.entrada) / par();
+    const draw = async () => {
+      let body = '';
+      if (CT.step === 1) {
+        const f = CT.f;
+        body = `<div class="grid g-main">
+          <div class="block"><h2>Dados do contrato</h2><div class="grid" style="gap:12px">
+            <div class="form-row"><div class="field"><label for="f-c">Contratante (quem paga)</label><input id="f-c" data-k="contratante" value="${esc(f.contratante)}"></div>
+            <div class="field"><label for="f-b">Beneficiário (o cliente)</label><input id="f-b" data-k="benef" value="${esc(f.benef)}"></div></div>
+            <div class="form-row">
+              <div class="field"><label for="f-t">Honorários (R$)</label><input id="f-t" type="number" min="0" step="100" data-k="total" value="${f.total}"></div>
+              <div class="field"><label for="f-e">Entrada (R$)</label><input id="f-e" type="number" min="0" step="100" data-k="entrada" value="${f.entrada}"></div>
+              <div class="field"><label for="f-p">Parcelas</label><input id="f-p" type="number" min="1" max="12" data-k="parcelas" value="${f.parcelas}"></div>
+              <div class="field"><label for="f-d">Dia do vencimento</label><input id="f-d" type="number" min="1" max="28" data-k="dia" value="${f.dia}"></div>
+            </div>
+            <p class="note">Parcelas de <b id="pv-val">${money(parVal())}</b>. O contratante (quem paga) fica separado do beneficiário, porque na prática quem paga costuma ser a família.</p>
+            <div><button class="btn primary" data-act="send" type="button">Gerar contrato e enviar por mensagem</button></div>
+          </div></div>
+          <div class="block"><h2>Prévia do contrato</h2><div class="paper" id="ct-prev" style="font-size:13px">${esc(contractText(f))}</div></div></div>`;
+      } else if (CT.step === 2) {
+        body = `<div class="grid g-main">
+          <div class="block"><h2>Contrato recebido pelo cliente</h2><p class="sub">Assim o contratante vê no celular. Role, leia e assine.</p><div class="paper" style="font-size:13px;max-height:420px;overflow:auto">${esc(contractText(CT.f))}</div></div>
+          <div class="block"><h2>Assinar</h2><div class="grid" style="gap:12px">
+            <label class="switch"><input type="checkbox" id="c-read" ${CT.read ? 'checked' : ''}><span>Li e concordo com o contrato</span></label>
+            <div class="field"><label>Desenhe sua assinatura</label><canvas class="sig" id="sig" width="600" height="260" aria-label="Área de assinatura"></canvas>
+              <div><button class="btn ghost" data-act="clear" type="button">Limpar</button></div></div>
+            <div class="row-actions"><button class="btn" data-act="id" type="button">${CT.id ? 'Documento e selfie enviados ✓' : 'Enviar foto do documento e selfie'}</button></div>
+            <div class="form-row"><div class="field"><label for="c-code">Código recebido por mensagem</label><input id="c-code" inputmode="numeric" maxlength="6" placeholder="6 dígitos"></div>
+            <div class="field"><label>&nbsp;</label><button class="btn" data-act="code" type="button">${CT.codeSent ? 'Reenviar código' : 'Enviar código'}</button></div></div>
+            <div><button class="btn primary" id="sign" data-act="sign" type="button" disabled>Assinar contrato</button></div>
+            <span class="hint" id="sign-h" style="font-size:12px;color:var(--ink-3)"></span>
+          </div></div></div>`;
+      } else if (CT.step === 3) {
+        body = `<div class="grid g-main">
+          <div class="block"><h2>Contrato assinado</h2><p class="sub">Registro de autoria e integridade. Qualquer alteração no texto muda a impressão digital abaixo.</p>
+            <dl class="fields" style="grid-template-columns:150px 1fr">
+              <dt>Documento</dt><dd>Contrato de honorários · ${esc(CT.f.benef)}</dd>
+              <dt>Assinante</dt><dd>${esc(CT.f.contratante)}</dd>
+              <dt>Data e hora</dt><dd class="mono">21/09/2026 15:51:07</dd>
+              <dt>IP (exemplo)</dt><dd class="mono">203.0.113.42</dd>
+              <dt>Dispositivo</dt><dd>Celular Android · navegador móvel</dd>
+              <dt>Verificações</dt><dd>${pill('ok', 'código por mensagem')} ${pill('ok', 'documento e selfie')} ${pill('ok', 'assinatura desenhada')}</dd>
+            </dl>
+            <p class="sec-title" style="margin-top:14px">Impressão digital do documento (SHA-256, calculada agora)</p><div class="hash">${CT.hash}</div>
+            <div class="row-actions" style="margin-top:14px"><button class="btn primary" data-act="pay" type="button">Seguir para a cobrança</button></div>
+          </div>
+          <div class="block"><h2>O que isso vale</h2><p class="note">A trilha desta demonstração é um exemplo. <b>Em produção, ela é emitida por um provedor de assinatura eletrônica.</b> A força de título executivo depende do provedor e do tipo de assinatura aceito pelo tribunal. Valide com a advogada.</p></div></div>`;
+      } else if (CT.step === 4) {
+        const forma = CT.forma;
+        body = `<div class="grid g-main">
+          <div class="block"><h2>Como o contratante vai pagar</h2>
+            <div class="pay-opt" style="margin:8px 0 14px">${[['pixauto', 'Pix Automático (recomendado)'], ['cartao', 'Cartão recorrente'], ['boleto', 'Boleto']].map(([k, n]) => `<button class="btn" data-forma="${k}" aria-pressed="${forma === k}" type="button">${n}</button>`).join('')}</div>
+            ${forma === 'pixauto' ? `<p class="note">O contratante autoriza <b>uma vez</b> no app do banco. As ${par()} parcelas de ${money(parVal())} são cobradas no dia ${CT.f.dia}, sem lembrar de nada. Ele pode cancelar no próprio banco.</p>
+              <div class="row-actions" style="margin-top:12px"><button class="btn ${CT.auth ? '' : 'primary'}" data-act="auth" type="button" ${CT.auth ? 'disabled' : ''}>${CT.auth ? 'Autorização concedida ✓' : 'Simular autorização no app do banco'}</button></div>`
+            : forma === 'cartao' ? '<p class="note">O cartão é guardado com segurança pelo processador de pagamento (o sistema não vê o número). Se for cartão de terceiro, exige confirmação extra do titular para evitar contestação.</p>'
+            : '<p class="note">Boletos das parcelas são emitidos automaticamente, com lembretes antes do vencimento.</p>'}
+            <p class="sec-title" style="margin-top:18px">Entrada de ${money(CT.f.entrada)} · Pix</p>
+            <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:flex-start"><div id="qr"></div>
+              <div style="flex:1;min-width:200px"><div class="hash">00020126EXEMPLO-NAO-PAGA-NADA-5204000053039865802BR5910DEMONSTRACAO6304ABCD</div>
+              <p class="legend">Código de exemplo. Não é válido e não movimenta dinheiro.</p>
+              <div class="row-actions"><button class="btn primary" data-act="paid" type="button" ${CT.paidEntry ? 'disabled' : ''}>${CT.paidEntry ? 'Entrada paga ✓' : 'Simular pagamento da entrada'}</button></div></div></div>
+            <div class="row-actions" style="margin-top:16px"><button class="btn primary" data-act="finish" type="button" ${CT.paidEntry && (forma !== 'pixauto' || CT.auth) ? '' : 'disabled'}>Concluir</button></div>
+          </div>
+          <div class="block"><h2>Resumo</h2><dl class="fields" style="grid-template-columns:120px 1fr"><dt>Total</dt><dd>${money(CT.f.total)}</dd><dt>Entrada</dt><dd>${money(CT.f.entrada)}</dd><dt>Parcelas</dt><dd>${par()} × ${money(parVal())}</dd><dt>Vencimento</dt><dd>dia ${CT.f.dia}</dd></dl></div></div>`;
+      } else {
+        const rows = [['Entrada', 'hoje', CT.f.entrada, 'Pago']].concat([...Array(par())].map((_, i) => [`Parcela ${i + 1}`, `${pad(CT.f.dia)}/${pad(((9 + i) % 12) + 1)}`, parVal(), 'Agendada']));
+        body = `<div class="block"><h2>Contrato ativo</h2><p class="sub">${esc(CT.f.benef)} · contratante ${esc(CT.f.contratante)}</p>
+          <div class="kpi-row" style="margin-bottom:14px"><div class="kpi"><small>Contratado</small><strong>${money(CT.f.total)}</strong></div><div class="kpi"><small>Recebido</small><strong>${money(CT.f.entrada)}</strong></div><div class="kpi"><small>A receber</small><strong>${money(CT.f.total - CT.f.entrada)}</strong></div></div>
+          <table class="tbl"><thead><tr><th>Item</th><th>Vence</th><th>Valor</th><th>Situação</th></tr></thead><tbody>${rows.map(r => `<tr><td>${r[0]}</td><td class="mono">${r[1]}</td><td class="mono">${money(r[2])}</td><td>${pill(r[3] === 'Pago' ? 'ok' : 'acc', r[3])}</td></tr>`).join('')}</tbody></table>
+          <p class="note" style="margin-top:14px">Já entrou no <b>Financeiro</b> e na <b>régua de cobrança</b>: lembrete gentil 2 dias antes, aviso no dia seguinte ao atraso, e etapas mais duras só com o seu aval.</p>
+          <div class="row-actions" style="margin-top:14px"><button class="btn" data-act="again" type="button">Refazer simulação</button></div></div>`;
+      }
+      root.innerHTML = `<div class="block">${stepper()}</div>${body}`;
+      if (CT.step === 2) initSig();
+      if (CT.step === 4) { const q = $('#qr'); if (q) q.appendChild(qrCanvas(20260921)); }
+    };
+    function initSig() {
+      const cv = $('#sig'), g = cv.getContext('2d'); let down = false;
+      const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim() || '#111';
+      g.lineWidth = 4; g.lineCap = 'round'; g.strokeStyle = ink;
+      const pt = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left) * cv.width / r.width, (e.clientY - r.top) * cv.height / r.height]; };
+      cv.onpointerdown = e => { down = true; cv.setPointerCapture(e.pointerId); const [x, y] = pt(e); g.beginPath(); g.moveTo(x, y); };
+      cv.onpointermove = e => { if (!down) return; const [x, y] = pt(e); g.lineTo(x, y); g.stroke(); CT.ink = true; check(); };
+      cv.onpointerup = () => { down = false; };
+      cv.clearInk = () => { g.clearRect(0, 0, cv.width, cv.height); CT.ink = false; check(); };
+      check();
+    }
+    function check() {
+      const b = $('#sign'); if (!b) return;
+      const code = ($('#c-code') || {}).value || '';
+      const miss = [!$('#c-read').checked && 'marque que leu', !CT.ink && 'desenhe a assinatura', !CT.id && 'envie documento e selfie', code !== '482913' && 'digite o código'].filter(Boolean);
+      b.disabled = miss.length > 0; $('#sign-h').textContent = miss.length ? 'Falta: ' + miss.join(', ') + '.' : 'Tudo pronto para assinar.';
+    }
+    root.oninput = e => {
+      const k = e.target.dataset.k;
+      if (k) { CT.f[k] = ['contratante', 'benef'].includes(k) ? e.target.value : Math.max(0, +e.target.value || 0);
+        $('#ct-prev').textContent = contractText(CT.f); $('#pv-val').textContent = money(parVal()); }
+      if (e.target.id === 'c-code' || e.target.id === 'c-read') { CT.read = $('#c-read').checked; check(); }
+    };
+    root.onchange = e => { if (e.target.id === 'c-read') { CT.read = e.target.checked; check(); } };
+    root.onclick = async e => {
+      const fm = e.target.closest('[data-forma]'); if (fm) { CT.forma = fm.dataset.forma; CT.auth = false; draw(); return; }
+      const a = e.target.closest('[data-act]'); if (!a) return;
+      const act = a.dataset.act;
+      if (act === 'send') { CT.step = 2; draw(); toast('Link do contrato enviado por mensagem (simulação)'); }
+      else if (act === 'clear') $('#sig').clearInk();
+      else if (act === 'id') { CT.id = true; a.textContent = 'Documento e selfie enviados ✓'; check(); }
+      else if (act === 'code') { CT.codeSent = true; a.textContent = 'Reenviar código'; toast('Código enviado por mensagem (simulação): 482913'); }
+      else if (act === 'sign') { CT.hash = await sha256(contractText(CT.f) + '|' + CT.f.contratante + '|2026-09-21T15:51:07-03:00'); CT.step = 3; draw(); }
+      else if (act === 'pay') { CT.step = 4; draw(); }
+      else if (act === 'auth') { CT.auth = true; draw(); toast('Autorização registrada (simulação)'); }
+      else if (act === 'paid') { CT.paidEntry = true; draw(); toast('Pagamento da entrada confirmado (simulação)'); }
+      else if (act === 'finish') { CT.step = 5; draw(); }
+      else if (act === 'again') { Object.assign(CT, {step: 1, ink: false, read: false, codeSent: false, id: false, hash: '', paidEntry: false, auth: false}); draw(); }
+    };
+    draw();
+  }
+};
+
+/* ---------- Atendimento e Conteúdo (cenas guiadas) ---------- */
+const EXPLAIN = {
+  urgencia: {adv: 'Você recebe um alerta com o resumo pronto: situação, local, nome e telefone. O assistente só colhe o essencial e nunca pergunta sobre os fatos. Você liga ou assume com um toque.', cli: 'A família é respondida na hora, mesmo de madrugada, sabe que a advogada foi avisada e ouve o essencial: a pessoa presa pode ficar calada e ter advogado.', easy: 'Nenhum contato de urgência se perde, e você não precisa ficar de plantão olhando o celular.'},
+  rapida: {adv: 'O sistema busca o andamento, escreve em linguagem simples e deixa um rascunho para você aprovar ou editar. Só números cadastrados, com PIN, conversam.', cli: 'Em três toques: andamento, prazos ou falar com a Dra. A resposta é curta e cabe nos poucos minutos de conversa que ele tem.', easy: 'Acaba o “e o meu processo?” no meio da audiência. O cliente recebe e você controla o que é dito.'},
+  contrato: {adv: 'Você define valor, entrada e parcelas. O contrato vai por mensagem, o cliente assina no celular e a cobrança já nasce configurada, com uma régua que só endurece com o seu aval.', cli: 'A família lê, assina e autoriza o Pix Automático uma vez. Depois não precisa lembrar de datas nem pedir 2ª via.', easy: 'Fim do contrato verbal e da cobrança constrangedora. As parcelas chegam antes de cada fase do trabalho.'},
+  conteudo: {adv: 'O agente propõe a semana, escreve os roteiros e prepara os cortes. Cada peça mostra a checagem do Provimento 205 e só sai depois da sua aprovação.', cli: 'Quem pesquisa na internet encontra informação séria e clara, escrita para a família, sem promessa de resultado.', easy: 'Seu perfil ganha rotina profissional com poucos minutos de aprovação por semana.'}
+};
+function atendSkeleton(scenes) {
+  const LBL = {urgencia: 'Urgência de madrugada', rapida: 'Consulta rápida', contrato: 'Contrato e parcelas', conteudo: 'Conteúdo da semana'};
+  const bar = scenes.length > 1
+    ? `<nav class="tabs" role="tablist" aria-label="Cenas">${scenes.map(k => `<button class="tab" role="tab" data-scene="${k}" aria-selected="false">${LBL[k]}</button>`).join('')}<span class="spacer"></span><button class="restart" id="restart" type="button">Reiniciar cena</button></nav>`
+    : '<div class="row-actions"><button class="restart" id="restart" type="button">Reiniciar cena</button></div>';
+  return `${bar}
+    <p class="pain"><b>A dor</b><span id="pain"></span></p>
+    <div class="explain" id="explain"></div>
+    <div class="stage">
+      <section class="phone" id="phone" aria-label="Conversa simulada">
+        <div class="phone-head"><div class="avatar" aria-hidden="true">E</div><div><strong id="ph-title"></strong><small id="ph-sub"></small></div></div>
+        <div class="msgs" id="msgs" aria-live="polite"></div>
+        <div class="choices" id="choices"></div>
+        <div class="reel-wrap" id="reel-wrap" hidden><div class="reel" id="reel"><span class="tag" id="reel-tag"></span><div class="line" id="reel-line"></div>
+          <div class="lower"><b>${esc(DRA())}</b><span>${esc(profile.oab || 'OAB/UF 000.000')} · Direito Criminal</span><span class="fmt" id="reel-fmt"></span></div></div></div>
+        <div class="reel-note" id="reel-note" hidden>Prévia gerada a partir da gravação-modelo autorizada, com fundo preto fixo.</div>
+      </section>
+      <section class="panel" aria-label="Painel da advogada"><div class="panel-head"><h2>Painel da advogada</h2><small>${esc(DRA())} · escritório fictício</small></div><div class="panel-body" id="panel-body"></div></section>
+    </div>`;
+}
+function mountAtend(root, scenes, initial) {
+  root.innerHTML = atendSkeleton(scenes);
+
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const money = n => 'R$ ' + n.toLocaleString('pt-BR');
+  const sleep = ms => new Promise(r => setTimeout(r, reduce ? Math.min(ms, 40) : ms));
+  class Stop extends Error {}
+  let run = 0, handlers = {}, reelTimer = null, toastTimer = null;
+  const alive = id => { if (id !== run) throw new Stop(); };
+
+  const phone = $('#phone'), msgs = $('#msgs'), choicesEl = $('#choices'), pbEl = $('#panel-body');
+  const panelBody = {set innerHTML(v) { pbEl.innerHTML = T(v); }, get innerHTML() { return pbEl.innerHTML; }, addEventListener: (...a) => pbEl.addEventListener(...a)};
+  const pill = (k, t) => `<span class="pill ${k}">${t}</span>`;
+
+  function toast(t) {
+    const el = $('#toast'); el.textContent = t; el.hidden = false;
+    clearTimeout(toastTimer); toastTimer = setTimeout(() => { el.hidden = true; }, 2400);
+  }
+
+  /* ---------- chat helpers ---------- */
+  function bubble(kind, html, time) {
+    const d = document.createElement('div');
+    d.className = 'msg ' + kind;
+    d.innerHTML = T(html) + (time ? `<time>${time}</time>` : '');
+    d.dataset.who = DRA();
+    msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+  function typing() {
+    const d = document.createElement('div');
+    d.className = 'msg bot typing'; d.setAttribute('aria-label', 'digitando');
+    d.innerHTML = '<i></i><i></i><i></i>';
+    msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
+    return d;
+  }
+  async function say(id, kind, html, o = {}) {
+    const wait = o.wait ?? 750;
+    if (kind !== 'client' && kind !== 'sys' && wait) {
+      const t = typing(); await sleep(wait); alive(id); t.remove();
+    }
+    alive(id);
+    return bubble(kind, html, o.time || '');
+  }
+  function ask(id, options) {
+    return new Promise(res => {
+      choicesEl.innerHTML = '';
+      options.forEach((o, i) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'chip'; b.textContent = o.label;
+        b.onclick = () => {
+          if (id !== run) return;
+          choicesEl.innerHTML = '';
+          bubble('client', esc(o.say ?? o.label), o.time || '');
+          res(i);
+        };
+        choicesEl.appendChild(b);
+      });
+    });
+  }
+  const waitAct = (id, name) => new Promise(res => {
+    handlers[name] = b => { delete handlers[name]; if (id === run) res(b); };
+  });
+
+  panelBody.addEventListener('click', e => {
+    const b = e.target.closest('[data-act]');
+    if (!b) return;
+    const h = handlers[b.dataset.act];
+    if (h) h(b);
+  });
+
+  const rules = list => `<div><p class="sec-title">Regras ativas neste atendimento</p><ul class="rules">${list.map(r => `<li>${r}</li>`).join('')}</ul></div>`;
+
+  /* ---------- cena 1: urgência ---------- */
+  function urgHTML(s) {
+    const f = (v, ph) => v ? esc(v) : `<span class="pending">${ph}</span>`;
+    const head = s.urgent
+      ? `${pill('amber', 'Urgente')}<span class="mono">02:15 · há 1 min</span>`
+      : `${pill('acc', 'Triagem em andamento')}<span class="mono">02:14</span>`;
+    const done = s.urgent ? `
+      <div class="summary"><b>Resumo para você:</b> flagrante, ${esc(s.local)}. Detido: ${esc(s.nome)}. Quem escreveu é familiar. Retornar em ${esc(s.contato)}. Detalhes do fato não foram coletados, de propósito.</div>
+      <div class="row-actions">
+        <button class="btn primary" data-act="call" type="button">Ligar agora</button>
+        <button class="btn" data-act="take" type="button" ${s.taken ? 'disabled' : ''}>${s.taken ? 'Atendimento assumido' : 'Assumir atendimento'}</button>
+      </div>` : '';
+    return `
+      <div>
+        <p class="sec-title">Fila de atendimentos</p>
+        <div class="qcard ${s.urgent ? 'urgent' : ''}">
+          <div class="qcard-head">${head}</div>
+          <div class="qcard-body">
+            <h3>Prisão de familiar</h3>
+            <dl class="fields">
+              <dt>Situação</dt><dd>${f(s.tipo, 'perguntando…')}</dd>
+              <dt>Local</dt><dd>${f(s.local, 'perguntando…')}</dd>
+              <dt>Detido</dt><dd>${f(s.nome, 'perguntando…')}</dd>
+              <dt>Retorno</dt><dd>${f(s.contato, 'perguntando…')}</dd>
+              <dt>Fatos do caso</dt><dd>não coletados (regra)</dd>
+            </dl>
+            ${done}
+          </div>
+        </div>
+      </div>
+      ${rules(['Se apresenta como assistente virtual e cita a advogada', 'Não pergunta sobre os fatos nem prevê resultado', 'Alerta a advogada assim que o essencial estiver coletado'])}`;
+  }
+  async function sceneUrgencia(id) {
+    const s = {tipo: null, local: null, nome: null, contato: null, urgent: false, taken: false};
+    const draw = () => { panelBody.innerHTML = urgHTML(s); };
+    handlers.call = () => toast('Discagem iniciada (simulação)');
+    panelBody.innerHTML = '<p class="pending">Aguardando novos atendimentos…</p>';
+    await say(id, 'client', 'Meu irmão foi preso agora há pouco. Preciso de um advogado urgente.', {time: '02:14'});
+    draw();
+    await say(id, 'bot', 'Sinto muito por isso. Sou o <b>assistente virtual</b> do escritório da Dra. Helena Duarte, supervisionado por ela. Vou avisá-la agora. Preciso de 3 informações rápidas.', {time: '02:14'});
+    await say(id, 'bot', 'Foi prisão em flagrante ou por mandado?', {wait: 500});
+    let i = await ask(id, [{label: 'Em flagrante, agora'}, {label: 'Por mandado'}, {label: 'Não sei'}]);
+    s.tipo = ['Flagrante', 'Mandado', 'Não informado'][i]; draw();
+    await say(id, 'bot', 'Em qual delegacia ou unidade ele está?', {wait: 500});
+    i = await ask(id, [{label: '1º DP · Centro'}, {label: 'Não sei informar'}]);
+    s.local = ['1º DP · Centro', 'local não informado'][i]; draw();
+    await say(id, 'bot', 'Qual o nome completo dele e o melhor telefone para a advogada retornar?', {wait: 500});
+    await ask(id, [{label: 'Enviar nome e telefone', say: 'Rafael Martins Costa. Retornar em (11) 9XXXX-0000'}]);
+    s.nome = 'Rafael Martins Costa'; s.contato = '(11) 9XXXX-0000'; draw();
+    await say(id, 'bot', '<b>Alerta enviado à Dra. Helena agora.</b> Ela retorna por este número.', {time: '02:15'});
+    s.urgent = true; draw();
+    await say(id, 'bot', 'Uma informação geral enquanto isso: a Constituição garante ao preso o direito de permanecer calado e de ser assistido por advogado. Não vou perguntar sobre os fatos nem prever resultados. Isso é só com a advogada.', {wait: 1100});
+    await waitAct(id, 'take');
+    s.taken = true; draw();
+    await say(id, 'human', 'Recebi. Já estou saindo para o 1º DP. Não comentem o fato com ninguém até eu chegar.', {time: '02:17', wait: 900});
+  }
+
+  /* ---------- cena 2: consulta rápida ---------- */
+  const DRAFT = 'Marcos, resumo simples: seu pedido de progressão de regime foi protocolado em 12/09. Agora está com o Ministério Público, que tem 5 dias para opinar. O juiz ainda não decidiu. Vou checar de novo amanhã às 9h.';
+  function rapidaHTML(s) {
+    const auth = `
+      <div>
+        <p class="sec-title">Número autorizado</p>
+        <div class="qcard"><div class="qcard-body">
+          <dl class="fields">
+            <dt>Cliente</dt><dd>Marcos Teixeira</dd>
+            <dt>Processo</dt><dd><span class="src">0001234-56.2026.8.00.0000</span></dd>
+            <dt>Acesso</dt><dd>${s.pin ? pill('ok', 'PIN verificado') : pill('mute', 'aguardando PIN')}</dd>
+          </dl>
+        </div></div>
+      </div>`;
+    let draft = '';
+    if (s.draft) {
+      draft = `
+      <div>
+        <p class="sec-title">Resposta do assistente</p>
+        <div class="qcard ${s.sent ? '' : 'urgent'}">
+          <div class="qcard-head">${s.sent ? pill('ok', 'Enviado às 15:42 · validado por você') : pill('amber', 'Aguardando sua aprovação')}<span class="src">Fonte: DataJud e Diário (exemplo)</span></div>
+          <div class="qcard-body">
+            <div class="draft" id="draft">${esc(s.draft)}</div>
+            ${s.sent ? '' : `<div class="row-actions"><button class="btn primary" data-act="approve" type="button">Aprovar e enviar</button><button class="btn" data-act="edit" type="button">Editar texto</button></div>`}
+          </div>
+        </div>
+      </div>`;
+    }
+    const cb = s.callback ? `<div><p class="sec-title">Pedidos de retorno</p><div class="summary">Marcos pediu para falar com você. Melhor horário sugerido: depois da audiência, por volta das 16h.</div></div>` : '';
+    return auth + draft + cb + rules(['Só responde ao número cadastrado e com PIN', 'Nada de andamento sai sem a sua aprovação', 'Não prevê decisão do juiz nem cita “chance” de resultado']);
+  }
+  async function sceneRapida(id) {
+    const s = {pin: false, draft: '', sent: false, callback: false};
+    const draw = () => { panelBody.innerHTML = rapidaHTML(s); };
+    handlers.edit = () => { const d = $('#draft'); if (d) { d.contentEditable = 'true'; d.focus(); } };
+    draw();
+    await say(id, 'bot', '<b>Modo rápido.</b> Respostas curtas, em poucos toques. Digite seu PIN para continuar.', {time: '15:40', wait: 300});
+    await ask(id, [{label: 'Enviar PIN', say: '••••'}]);
+    s.pin = true; draw();
+    await say(id, 'bot', 'Olá, Marcos. Sou o assistente virtual da Dra. Helena. O que você precisa?', {time: '15:40'});
+    const menu = [{k: 'and', label: '1 · Andamento'}, {k: 'pra', label: '2 · Prazos'}, {k: 'dra', label: '3 · Falar com a Dra.'}];
+    const done = new Set();
+    while (done.size < 3) {
+      const opts = menu.filter(m => !done.has(m.k));
+      const i = await ask(id, opts); const k = opts[i].k; done.add(k);
+      if (k === 'and') {
+        await say(id, 'bot', 'Vou buscar. A Dra. valida cada resposta antes de eu enviar. Um instante.', {wait: 600});
+        const sys = await say(id, 'sys', 'Aguardando validação da advogada…');
+        s.draft = DRAFT; draw();
+        await waitAct(id, 'approve');
+        s.draft = ($('#draft')?.innerText || DRAFT).trim(); s.sent = true; draw();
+        sys.remove();
+        await say(id, 'bot', esc(s.draft).replace(/\n/g, '<br>') + '<span class="seal">Validado pela Dra. Helena · 15:42</span>', {time: '15:42', wait: 500});
+      } else if (k === 'pra') {
+        await say(id, 'bot', '<div class="doc"><h4>Prazos · exemplo</h4><dl><dt>Parecer do MP</dt><dd>até 26/09</dd><dt>Progressão</dt><dd>a partir de 14/03/2027</dd></dl></div><span class="seal">Cálculo feito pela Dra. Helena em 20/09</span>', {wait: 600});
+      } else {
+        s.callback = true; draw();
+        await say(id, 'bot', 'Avisei a Dra. Ela responde assim que sair da audiência, por volta das 16h.', {wait: 600});
+      }
+      if (done.size < 3) await say(id, 'bot', 'Mais alguma coisa?', {wait: 400});
+    }
+    await say(id, 'bot', 'Tudo certo. Nada aqui substitui a orientação da advogada. Até logo.', {wait: 500});
+  }
+
+  /* ---------- cena 3: contrato e parcelas ---------- */
+  const PLAN = [
+    {n: 'Entrada', due: 'hoje', v: 2000, fase: 'Fase 1'},
+    {n: 'Parcela 1', due: '10/10', v: 1000, fase: 'Fase 2'},
+    {n: 'Parcela 2', due: '10/11', v: 1000, fase: 'Fase 2'},
+    {n: 'Parcela 3', due: '10/12', v: 1000, fase: 'Fase 3'},
+    {n: 'Parcela 4', due: '10/01', v: 1000, fase: 'Fase 3'}
+  ];
+  function contratoHTML(s) {
+    const status = ['Proposta enviada', 'Contrato assinado', 'Pix Automático ativo', 'Entrada recebida'][s.stage];
+    const received = s.stage >= 3 ? 2000 : 0;
+    const rows = PLAN.map((p, i) => {
+      let st;
+      if (i === 0) st = s.stage >= 3 ? pill('ok', 'Pago') : pill('mute', 'Aguardando');
+      else st = s.stage >= 2 ? pill('acc', 'Agendada') : pill('mute', 'Não iniciada');
+      return `<tr><td>${p.n}</td><td>${p.due}</td><td>${money(p.v)}</td><td>${p.fase}</td><td>${st}</td></tr>`;
+    }).join('');
+    return `
+      <div class="row-actions" style="align-items:center"><span class="sec-title" style="margin:0">Honorários · Marcos Teixeira</span>${pill(s.stage >= 3 ? 'ok' : 'amber', status)}</div>
+      <div class="kpis">
+        <div class="kpi"><small>Contratado</small><strong>${money(6000)}</strong></div>
+        <div class="kpi"><small>Recebido</small><strong>${money(received)}</strong></div>
+        <div class="kpi"><small>A receber</small><strong>${money(6000 - received)}</strong></div>
+      </div>
+      <div>
+        <p class="sec-title">Cronograma de recebimento</p>
+        <div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Vence</th><th>Valor</th><th>Libera</th><th>Situação</th></tr></thead><tbody>${rows}</tbody></table></div>
+        <p class="legend">Fase 1: análise dos autos e primeira petição · Fase 2: audiências · Fase 3: recursos e execução. Cada parcela vem antes do trabalho da fase que ela libera.</p>
+      </div>
+      <div>
+        <p class="sec-title">Régua de cobrança</p>
+        <ul class="ladder">
+          <li><span class="d">D−2</span><span>Lembrete gentil por mensagem</span>${pill('ok', 'automático')}</li>
+          <li><span class="d">D+1</span><span>Aviso de atraso com nova via</span>${pill('ok', 'automático')}</li>
+          <li><span class="d">D+7</span><span>Notificação extrajudicial</span>${pill('amber', 'com seu aval')}</li>
+          <li><span class="d">D+30</span><span>Protesto do contrato ou negativação</span>${pill('amber', 'com seu aval')}</li>
+        </ul>
+      </div>
+      ${rules(['Contratante (quem paga) e beneficiário (o cliente) ficam separados no contrato', 'Você ativa ou desativa o módulo financeiro por cliente', 'O assistente nunca promete garantia de recebimento'])}`;
+  }
+  async function sceneContrato(id) {
+    const s = {stage: 0};
+    const draw = () => { panelBody.innerHTML = contratoHTML(s); };
+    draw();
+    await say(id, 'client', 'Sou a Ana, irmã do Marcos. Quero contratar a Dra. Helena.', {time: '15:48'});
+    await say(id, 'bot', 'Olá, Ana. Sou o assistente virtual do escritório. A Dra. Helena preparou esta proposta para você (valores de exemplo):', {time: '15:48'});
+    await say(id, 'bot', '<div class="doc"><h4>Proposta de honorários</h4><dl><dt>Contratante</dt><dd>Ana Teixeira</dd><dt>Beneficiário</dt><dd>Marcos Teixeira</dd><dt>Total</dt><dd>R$ 6.000</dd><dt>Entrada</dt><dd>R$ 2.000 hoje</dd><dt>Parcelas</dt><dd>4 × R$ 1.000, dia 10</dd></dl></div>', {wait: 700});
+    await ask(id, [{label: 'Ver contrato'}]);
+    await say(id, 'bot', 'Contrato pronto. A assinatura é eletrônica e registra autoria e integridade do documento.', {wait: 700});
+    await ask(id, [{label: 'Assinar contrato'}]);
+    s.stage = 1; draw();
+    await say(id, 'bot', 'Assinado às 15:51. Agora, para as parcelas não dependerem de lembrar datas:', {time: '15:51'});
+    await ask(id, [{label: 'Autorizar Pix Automático'}]);
+    s.stage = 2; draw();
+    await say(id, 'bot', 'Autorizado. Você pode cancelar a qualquer momento no app do seu banco. Falta a entrada:', {wait: 700});
+    await ask(id, [{label: 'Pagar entrada · R$ 2.000 (Pix)', say: 'Entrada paga.'}]);
+    s.stage = 3; draw();
+    await say(id, 'bot', 'Entrada recebida. A Dra. Helena já foi avisada e inicia a fase 1: análise dos autos e primeira petição.', {time: '15:53', wait: 700});
+  }
+
+  /* ---------- cena 4: conteúdo da semana ---------- */
+  const POSTS = [
+    {when: 'Seg · 18:00', fmt: 'Reel', ttl: 'Progressão de regime não é automática', st: 'sched', tag: 'Criado com apoio de IA',
+      lines: ['Progressão de regime não é automática.', 'Existe requisito de tempo de pena cumprida…', '…e requisito de bom comportamento, atestado pela unidade.', 'Quem decide é o juiz da execução.', 'Cada caso tem seus cálculos. Consulte um advogado.']},
+    {when: 'Ter · 12:00', fmt: 'Carrossel', ttl: 'O que é audiência de custódia', st: 'wait', tag: 'Criado com apoio de IA',
+      lines: ['Audiência de custódia:', 'é o primeiro contato da pessoa presa com um juiz, em até 24 horas.', 'Avalia a legalidade da prisão e as condições de quem foi preso.', 'A presença de advogado ou defensor é garantida.']},
+    {when: 'Qui · 19:00', fmt: 'Reel', ttl: 'Prisão em flagrante: o que a família pode fazer', st: 'wait', tag: 'Criado com apoio de IA',
+      lines: ['Prisão em flagrante: o que a família pode fazer?', 'Anotar onde a pessoa está e o horário.', 'Procurar advogado de confiança ou a Defensoria.', 'Evitar comentar os fatos por mensagem.', 'Informação geral. Cada situação é única.']},
+    {when: 'Sáb · 10:00', fmt: 'Story', ttl: 'Bastidores: dia de audiência', st: 'draft', tag: 'Gravação-modelo',
+      lines: ['Dia de audiência.', 'Pasta, atenção e muito café.']},
+    {when: 'Dom · 20:00', fmt: 'Reel', ttl: 'Remição de pena: como funciona', st: 'draft', tag: 'Criado com apoio de IA',
+      lines: ['Remição: estudar ou trabalhar pode reduzir o tempo de pena.', 'Regra geral: 1 dia a menos a cada 3 dias de trabalho.', 'Ou 1 dia a menos a cada 12 horas de estudo.', 'Cada caso é confirmado pela advogada.']}
+  ];
+  const ST = {sched: ['ok', 'Agendado'], ok: ['ok', 'Aprovado'], wait: ['amber', 'Aguardando você'], draft: ['mute', 'Rascunho'], adj: ['mute', 'Ajuste pedido']};
+  function conteudoHTML(s) {
+    const p = POSTS[s.sel];
+    const approved = POSTS.filter(x => x.st === 'sched' || x.st === 'ok').length;
+    const rows = POSTS.map((x, i) => `
+      <button class="post" data-act="pick" data-i="${i}" type="button" ${i === s.sel ? 'aria-current="true"' : ''}>
+        <span class="when">${x.when}</span>
+        <span class="ttl">${esc(x.ttl)}<span class="fmt">${x.fmt}</span></span>
+        ${pill(ST[x.st][0], ST[x.st][1])}
+      </button>`).join('');
+    const reviewed = p.st === 'sched' || p.st === 'ok';
+    const personal = p.fmt === 'Story';
+    const checks = [
+      ['Sem promessa de resultado', true],
+      ['Sem caso concreto nem cliente identificado', true],
+      ['Sem valores ou formas de pagamento', true],
+      [personal ? 'Sem ostentação de bens ou viagens' : 'Rótulo de conteúdo criado com apoio de IA aplicado', true],
+      ['Revisão e aprovação da advogada', reviewed]
+    ].map(([t, ok]) => `<li><span class="tick ${ok ? '' : 'no'}">✓</span><span>${t}${ok ? '' : ' <em class="pending">(pendente)</em>'}</span></li>`).join('');
+    return `
+      <div class="row-actions" style="align-items:center;justify-content:space-between">
+        <span class="sec-title" style="margin:0">Semana de 22 a 28/09 · 5 publicações</span>${pill('acc', approved + ' de 5 aprovadas')}
+      </div>
+      <div class="posts">${rows}</div>
+      <div>
+        <p class="sec-title">Roteiro selecionado</p>
+        <ol class="script">${p.lines.map(l => `<li>${esc(l)}</li>`).join('')}</ol>
+      </div>
+      <div>
+        <p class="sec-title">Conformidade com o Provimento 205/2021</p>
+        <ul class="checks">${checks}</ul>
+      </div>
+      <div class="row-actions">
+        <button class="btn primary" data-act="approve" type="button" ${reviewed ? 'disabled' : ''}>${reviewed ? 'Já aprovado' : 'Aprovar publicação'}</button>
+        <button class="btn" data-act="adjust" type="button" ${reviewed ? 'disabled' : ''}>Pedir ajuste</button>
+      </div>`;
+  }
+  function showReel(s) {
+    clearInterval(reelTimer);
+    const p = POSTS[s.sel]; let n = 0;
+    $('#reel-tag').textContent = p.tag;
+    $('#reel-fmt').textContent = p.fmt + ' · ' + p.when;
+    const paint = () => { $('#reel-line').textContent = p.lines[n % p.lines.length]; n++; };
+    paint();
+    if (!reduce && p.lines.length > 1) reelTimer = setInterval(paint, 2600);
+  }
+  function sceneConteudo() {
+    const s = {sel: 1};
+    const draw = () => { panelBody.innerHTML = conteudoHTML(s); showReel(s); };
+    handlers.pick = b => { s.sel = +b.dataset.i; draw(); };
+    handlers.approve = () => {
+      POSTS[s.sel].st = 'ok';
+      const next = POSTS.findIndex(x => x.st === 'wait');
+      if (next >= 0) s.sel = next;
+      draw(); toast('Aprovado. Entra no calendário de publicação.');
+    };
+    handlers.adjust = () => { POSTS[s.sel].st = 'adj'; draw(); toast('Pedido de ajuste enviado ao agente.'); };
+    draw();
+  }
+
+  /* ---------- controle de cenas ---------- */
+  const SCENES = {
+    urgencia: {pain: 'A família escreve de madrugada e ninguém responde até de manhã. O assistente colhe só o essencial e chama a advogada na hora.', fn: sceneUrgencia},
+    rapida: {pain: 'O cliente tem poucos minutos para falar e a advogada está em audiência. Três toques respondem o essencial, e ela valida antes de enviar.', fn: sceneRapida},
+    contrato: {pain: 'Honorários parcelados sem contrato escrito viram atraso. Aqui o contrato é assinado, as parcelas são autorizadas de uma vez e a cobrança só endurece com o aval dela.', fn: sceneContrato},
+    conteudo: {pain: 'Perfil sem rotina não traz cliente. O agente propõe a semana dentro das regras da OAB, e nada vai ao ar sem a aprovação dela.', fn: sceneConteudo}
+  };
+  let current = initial;
+  function start(key) {
+    current = key; run++; handlers = {};
+    clearInterval(reelTimer);
+    document.querySelectorAll('.tab').forEach(t => t.setAttribute('aria-selected', String(t.dataset.scene === key)));
+    $('#pain').textContent = SCENES[key].pain;
+    const ex = EXPLAIN[key]; $('#explain').innerHTML = [['Para a advogada', ex.adv], ['Para o cliente', ex.cli], ['A comodidade', ex.easy]].map(([t, x]) => `<div class="ex"><b>${t}</b><p>${esc(x)}</p></div>`).join('');
+    const reel = key === 'conteudo';
+    ['#msgs', '#choices'].forEach(q => { $(q).hidden = reel; });
+    ['#reel-wrap', '#reel-note'].forEach(q => { $(q).hidden = !reel; });
+    $('#ph-title').textContent = reel ? 'Prévia do vídeo' : 'Escritório ' + LAST();
+    $('#ph-sub').textContent = reel ? 'Formato vertical · 9:16' : 'Assistente virtual · supervisionado pela advogada';
+    msgs.innerHTML = ''; choicesEl.innerHTML = '';
+    if (reel) POSTS.forEach((p, i) => { p.st = ['sched', 'wait', 'wait', 'draft', 'draft'][i]; });
+    Promise.resolve(SCENES[key].fn(run)).catch(e => { if (!(e instanceof Stop)) console.error(e); });
+  }
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => start(t.dataset.scene)));
+  $('#restart').addEventListener('click', () => start(current));
+  start(initial);
+  return () => { run++; clearInterval(reelTimer); };
+}
+VIEWS.whatsapp = {title: 'Demonstração guiada', sub: () => 'O layout da primeira versão: conversa de um lado, painel da advogada do outro', render: (root, arg) => mountAtend(root, ['urgencia', 'rapida', 'contrato', 'conteudo'], arg || 'urgencia')};
+
+/* ---------- Painel do cliente (o que ele vê ao entrar no site) ---------- */
+const CP = {logged: false, who: 'marcos', pix: false, msgSent: false, err: '', attempts: 0, locked: false, pinDraft: '1234'};
+const segHTML = mode => `<div class="seg" role="group" aria-label="Ver como"><button type="button" data-portal="adv" aria-pressed="${mode === 'adv'}">Painel da advogada</button><button type="button" data-portal="cli" aria-pressed="${mode === 'cli'}">Painel do cliente</button></div>`;
+function ringSvg(pct) {
+  const R = 34, C = 2 * Math.PI * R;
+  return `<svg width="104" height="104" viewBox="0 0 92 92" role="img" aria-label="${pct}% da pena cumprida"><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--line)" stroke-width="9"/><circle cx="46" cy="46" r="${R}" fill="none" style="stroke:var(--accent)" stroke-width="9" stroke-linecap="round" stroke-dasharray="${C}" stroke-dashoffset="${C * (1 - pct / 100)}" transform="rotate(-90 46 46)"/><text x="46" y="51" text-anchor="middle" style="fill:var(--ink);font-family:var(--f-display);font-size:19px;font-weight:600">${pct}%</text></svg>`;
+}
+const CP_PAY = [['Entrada', '23/07', 1500, 'ok'], ['Parcela 1', '23/08', 1000, 'ok'], ['Parcela 2', '23/09', 1000, 'next'], ['Parcela 3', '23/10', 1000, ''], ['Parcela 4', '23/11', 1000, ''], ['Parcela 5', '23/12', 1000, '']];
+function clientHTML() {
+  const ana = CP.who === 'ana', pn = PENA[1], pct = pn.sys ? Math.round(+pn.sys) : Math.round(pn.cum / pn.tot * 100), left = pn.tot * (pn.frac - pct) / 100;
+  const nome = ana ? 'Ana' : 'Marcos';
+  const top = `<header class="c-top"><div><strong>Escritório ${esc(LAST())}</strong><span>Portal do cliente · ${esc(DRA())}</span></div>${segHTML('cli')}</header>`;
+  if (!CP.logged) {
+    return `${top}<main class="c-wrap"><div class="block c-login"><h2>Entrar</h2>
+      <p class="sub">Acesso protegido. Seu telefone e um PIN de 4 dígitos foram combinados com o escritório.</p>
+      <div class="grid" style="gap:12px">
+        <div class="field"><label for="c-tel">Telefone cadastrado</label><input id="c-tel" value="(11) 9XXXX-0000" autocomplete="off"></div>
+        <div class="field"><label for="c-pin">PIN</label><input id="c-pin" type="password" value="${esc(CP.pinDraft)}" inputmode="numeric" maxlength="4"></div>
+        <div class="field"><label for="c-who">Entrar como (demonstração)</label><select id="c-who"><option value="marcos" ${CP.who === 'marcos' ? 'selected' : ''}>Marcos (cliente)</option><option value="ana" ${ana ? 'selected' : ''}>Ana (familiar e contratante)</option></select></div>
+        ${CP.err ? `<p class="note" style="border:1px solid var(--amber);color:var(--amber)">${esc(CP.err)}</p>` : ''}
+        <div><button class="btn primary" data-c="login" type="button" ${CP.locked ? 'disabled' : ''}>Entrar</button></div>
+      </div><p class="legend">O PIN de demonstração é 1234. Nada de fatos do caso é pedido aqui. O acesso é registrado e só quem a advogada autorizou consegue entrar.</p></div></main>`;
+  }
+  const tl = [['21/09', 'O Ministério Público deu parecer sobre o seu pedido.'], ['12/09', 'A Dra. protocolou o pedido de progressão de regime.'], ['02/09', 'Chegou o atestado de conduta da unidade.']];
+  const pay = ana ? `<section class="block"><h2>Pagamentos</h2><p class="sub">Contratado ${money(6500)} · pago ${money(2500)} · a pagar ${money(4000)}</p>
+      <table class="tbl"><tbody>${CP_PAY.map(r => `<tr><td>${r[0]}</td><td class="mono">${r[1]}</td><td class="mono">${money(r[2])}</td><td>${r[3] === 'ok' ? pill('ok', 'Pago') : r[3] === 'next' ? pill('amber', 'Próxima') : pill('mute', 'Agendada')}</td></tr>`).join('')}</tbody></table>
+      <p class="note" style="margin-top:12px">Débito automático ativo por Pix. Você pode cancelar no aplicativo do seu banco quando quiser.</p>
+      <div class="row-actions" style="margin-top:10px"><button class="btn primary" data-c="pix" type="button">Pagar a parcela 2 agora</button></div>
+      ${CP.pix ? '<div class="hash" style="margin-top:10px">00020126EXEMPLO-NAO-PAGA-NADA-5204000053039865802BR5910DEMONSTRACAO6304ABCD</div><p class="legend">Código de exemplo. Não movimenta dinheiro.</p>' : ''}</section>
+    <section class="block"><h2>Visitas</h2><div class="list"><div class="item"><span class="dot ate"></span><span class="t">Visita da advogada ao Marcos</span><span class="mono">23/09 · 08:30</span></div></div><p class="legend">Documentos exigidos e horários da unidade chegam por mensagem antes de cada visita.</p></section>` : '';
+  return `${top}<main class="c-wrap">
+    <p class="c-hello">Olá, <b>${nome}</b>. ${ana ? 'Você acompanha o caso do Marcos.' : 'Aqui está o seu caso.'}</p>
+    <section class="block c-status"><div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">${ringSvg(pct)}<div style="flex:1;min-width:200px"><p class="sec-title" style="margin:0 0 4px">Pena cumprida</p><h2 style="margin:0 0 4px">Pedido de progressão em análise</h2>
+      <p style="margin:0;color:var(--ink-2)">O Ministério Público já opinou. Agora falta a decisão do juiz. Ninguém consegue prever quando ela sai. A Dra. avisa assim que houver novidade.</p></div></div>
+      <p class="note" style="margin-top:12px">Pela conta da advogada, a fração de ${pn.frac}% será atingida em ${ymd(left)}, por volta de <b>${fullDate(addDays(TODAY, left))}</b>. Essa data pode mudar. ${pill('ok', 'validado pela Dra. · 21/09 15:42')}</p></section>
+    <section class="block"><h2>O que aconteceu</h2><ul class="timeline">${tl.map(t => `<li><time>${t[0]}</time><span>${t[1]}</span></li>`).join('')}</ul></section>
+    <section class="block"><h2>Próximos passos</h2><div class="list">
+      <div class="item"><span class="dot pra"></span><span class="t">Prazo do Ministério Público</span><span class="mono">até 26/09</span></div>
+      <div class="item"><span class="dot ate"></span><span class="t">Nova checagem do processo</span><span class="mono">amanhã · 09:00</span></div></div></section>
+    <section class="block"><h2>Preciso de algo</h2><p class="sub">Toque em uma opção. Cada resposta sobre o processo passa pela advogada.</p>
+      <div class="row-actions"><button class="btn" data-c="q-and" type="button">Andamento</button><button class="btn" data-c="q-pra" type="button">Prazos</button><button class="btn" data-c="q-dra" type="button">Falar com a Dra.</button></div>
+      <div class="field" style="margin-top:14px"><label for="c-msg">Mensagem para a advogada</label><textarea id="c-msg" rows="3" placeholder="Escreva aqui. Não conte detalhes dos fatos por este canal."></textarea></div>
+      <div class="row-actions" style="margin-top:10px"><button class="btn primary" data-c="send" type="button">Enviar mensagem</button></div>
+      ${CP.msgSent ? '<p class="note" style="margin-top:10px"><b>Enviada.</b> A advogada responde assim que sair da audiência. Se for urgência de prisão, ligue para o escritório.</p>' : ''}</section>
+    ${pay}
+    <section class="block"><h2>Documentos</h2><div class="list">
+      <div class="item"><span class="t">Contrato de honorários (assinado em 23/07)</span><button class="btn" data-c="doc" type="button">Baixar</button></div>
+      <div class="item"><span class="t">Procuração</span><button class="btn" data-c="doc" type="button">Baixar</button></div></div></section>
+    <footer class="foot"><span>Suas informações são sigilosas. Este canal usa um assistente de inteligência artificial supervisionado pela advogada.</span><span><button class="btn ghost" data-c="logout" type="button">Sair</button></span></footer></main>`;
+}
+function renderClient() { $('#cportal').innerHTML = clientHTML(); }
+function setMode(m) {
+  $('.app').hidden = m === 'cli'; $('#cportal').hidden = m !== 'cli';
+  $$('.side .seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.portal === m)));
+  if (m === 'cli') renderClient(); else if (curView) go(curView);
+  window.scrollTo({top: 0});
+}
+document.addEventListener('input', e => { if (e.target.id === 'c-pin') CP.pinDraft = e.target.value; });
+document.addEventListener('click', e => {
+  const md = e.target.closest('[data-portal]'); if (md) return setMode(md.dataset.portal);
+  const c = e.target.closest('#cportal [data-c]'); if (!c) return;
+  const k = c.dataset.c, ask = t => { cliOf(1).msgs.push(['c', t, '15:58']); cliOf(1).un += 1; refreshNav(); };
+  if (k === 'login') {
+    if (CP.locked) return;
+    const pin = ($('#c-pin').value || '').trim();
+    if (pin !== '1234') {
+      CP.attempts++;
+      if (CP.attempts >= 3) {
+        CP.locked = true; CP.err = 'Muitas tentativas. Aguarde alguns segundos e tente de novo.'; renderClient();
+        setTimeout(() => { CP.locked = false; CP.attempts = 0; CP.err = ''; if (!CP.logged) renderClient(); }, 4000);
+      } else { CP.err = 'PIN incorreto. Confira com o escritório e tente de novo.'; renderClient(); }
+      return;
+    }
+    CP.who = $('#c-who').value; CP.logged = true; CP.err = ''; CP.attempts = 0; CP.locked = false; renderClient();
+  }
+  else if (k === 'logout') { CP.logged = false; CP.pix = false; CP.msgSent = false; CP.err = ''; CP.attempts = 0; CP.locked = false; CP.pinDraft = '1234'; renderClient(); }
+  else if (k === 'pix') { CP.pix = true; renderClient(); }
+  else if (k === 'doc') toast('Download iniciado (simulação)');
+  else if (k === 'send') { const t = $('#c-msg').value.trim(); if (!t) return toast('Escreva a mensagem antes de enviar'); ask(t); CP.msgSent = true; renderClient(); toast('Mensagem enviada. Aparece no painel da advogada.'); }
+  else if (k === 'q-and') { ask('Pedi o andamento do processo.'); toast('Pedido enviado. A advogada valida a resposta antes.'); }
+  else if (k === 'q-pra') { ask('Pedi os prazos do processo.'); toast('Pedido enviado. A advogada valida a resposta antes.'); }
+  else if (k === 'q-dra') { ask('Pedi para falar com a Dra.'); toast('Pedido de retorno enviado.'); }
+});
+
+/* ---------- Escolha de layout ---------- */
+const LAYOUTS = [
+  {n: '1', name: 'Vinho clássico', d: 'Sério e acolhedor. Serifa elegante, vinho como destaque, menu lateral.', kind: 'cor'},
+  {n: '2', name: 'Grafite e latão', d: 'Formal, de escritório tradicional. Cantos retos, dourado discreto, menu lateral.', kind: 'cor'},
+  {n: '3', name: 'Azul tribunal', d: 'Institucional e familiar a quem vive de fórum. Menu no topo em vez de lateral, leitura ampla.', kind: 'estrutura'},
+  {n: '4', name: 'Verde sereno', d: 'Calmo e humano. Cantos arredondados e mais espaço, bom para famílias em momento difícil.', kind: 'cor'},
+  {n: '5', name: 'Coral moderno', d: 'Moderno e denso, mais informação por tela. Bom para quem usa muito o painel no dia a dia.', kind: 'cor'}
+];
+let curLayout = store.get('layout', '1');
+function applyLayout(n) {
+  curLayout = LAYOUTS.some(l => l.n === n) ? n : '1';
+  document.body.dataset.layout = curLayout; store.set('layout', curLayout);
+  const sel = $('#p-lay'); if (sel) sel.value = curLayout;
+  applyMode(curMode);
+}
+let curMode = store.get('mode', 'dark');
+function applyMode(m) {
+  curMode = ['dark', 'light', 'auto'].includes(m) ? m : 'dark';
+  if (curMode === 'auto') document.body.removeAttribute('data-mode'); else document.body.dataset.mode = curMode;
+  store.set('mode', curMode);
+  const sel = $('#p-mode'); if (sel) sel.value = curMode;
+  const bg = getComputedStyle(document.body).backgroundColor;
+  document.documentElement.style.background = bg;
+  document.documentElement.style.colorScheme = curMode === 'auto' ? '' : curMode;
+}
+function layoutName() { return LAYOUTS.find(l => l.n === curLayout).name; }
+VIEWS.layouts = {
+  title: 'Escolha o seu layout',
+  sub: () => 'Cinco identidades visuais. Quatro mudam cor e tipografia; a Azul tribunal também move o menu para o topo',
+  render(root) {
+    const bars = [40, 55, 48, 66, 72, 60];
+    const draw = () => {
+      root.innerHTML = `<div class="lay-grid">${LAYOUTS.map(l => `
+        <article class="lay-card" data-layout="${l.n}" ${l.n === curLayout ? 'aria-current="true"' : ''}>
+          <div class="lay-mock"><div class="lay-nav"><i></i><i></i><i></i><i></i></div>
+            <div class="lay-body"><div class="lay-title">Escritório ${esc(LAST())}</div>
+              <div class="lay-kpis"><div><small>Recebido</small><strong>R$ 12.800</strong></div><div><small>Prazos</small><strong>2</strong></div></div>
+              <div class="lay-bars">${bars.map((h, i) => `<i class="${i > 3 ? 'p' : ''}" style="height:${h}%"></i>`).join('')}</div>
+              <div><span class="btn primary" style="display:inline-block;padding:5px 12px;font-size:12px">Aprovar</span> <span class="pill acc">Audiência 22/09</span></div></div></div>
+          <h3>${l.name}</h3><span class="pill ${l.kind === 'estrutura' ? 'acc' : 'mute'}" style="justify-self:start">${l.kind === 'estrutura' ? 'Cor e estrutura' : 'Cor e tipografia'}</span><p>${l.d}</p>
+          <div><button class="btn ${l.n === curLayout ? 'primary' : ''}" data-lay="${l.n}" type="button">${l.n === curLayout ? 'Layout escolhido' : 'Usar este layout'}</button></div>
+        </article>`).join('')}</div>
+      <div class="block" style="margin-top:20px"><h2>A opinião dela</h2>
+        <p class="sub">O que ela gostou, o que mudaria, o que faltou. Isso orienta a versão final.</p>
+        <div class="field"><label for="lay-note" class="sr">Comentários</label><textarea id="lay-note" rows="4" placeholder="Ex.: gosto do menu lateral, mas queria a agenda maior na primeira tela…">${esc(store.get('layNote', ''))}</textarea></div>
+        <div class="row-actions" style="margin-top:10px"><button class="btn primary" data-lay-copy type="button">Copiar resumo da escolha</button></div></div>`;
+    };
+    draw();
+    root.onclick = async e => {
+      const b = e.target.closest('[data-lay]'); if (b) { applyLayout(b.dataset.lay); draw(); toast('Layout aplicado: ' + layoutName()); return; }
+      if (e.target.closest('[data-lay-copy]')) {
+        const txt = `Layout escolhido: ${layoutName()}\nComentários: ${store.get('layNote', '') || '(nenhum)'}`;
+        toast(await copyText(txt) ? 'Resumo copiado' : 'Não foi possível copiar');
+      }
+    };
+    root.oninput = e => { if (e.target.id === 'lay-note') store.set('layNote', e.target.value); };
+  }
+};
+
+/* ---------- Apresentação: tudo que é oferecido, para a advogada e para o cliente ---------- */
+const DAY = [
+  ['02:14', 'A família escreve de madrugada', 'O assistente responde na hora, colhe só o essencial (situação, local, nome, telefone) e acorda você com um resumo pronto. Não pergunta sobre os fatos e não promete nada.', 'whatsapp', 'urgencia'],
+  ['07:40', 'Chega uma novidade no processo', 'O parecer do Ministério Público foi juntado. Você recebe o aviso com o resumo em linguagem simples e um rascunho de mensagem para o cliente, que só sai depois de você aprovar.', 'processos', ''],
+  ['09:00', 'Você entra em audiência', 'O modo audiência lê a sua agenda e avisa quem escrever que você retorna ao sair. Ninguém fica sem resposta e você não mexe no celular.', 'hoje', ''],
+  ['15:40', 'O cliente quer saber “o pé do processo”', 'Em três toques, com PIN, ele pede andamento, prazos ou contato. A resposta é curta, cabe na janela de tempo que ele tem e passa pela sua validação.', 'whatsapp', 'rapida'],
+  ['15:51', 'Uma família fecha o contrato', 'Contrato assinado no celular, Pix Automático autorizado uma vez, cronograma e cobrança já configurados. Você só vê o aviso “contrato ativo”.', 'whatsapp', 'contrato'],
+  ['18:00', 'O vídeo do dia é publicado', 'O agente preparou o roteiro e o corte na semana anterior. Você aprovou em um toque, e cada peça já passou pela checagem do Provimento 205.', 'whatsapp', 'conteudo'],
+  ['Fim do dia', 'Você confere o dinheiro', 'O financeiro mostra o que entrou, o que está para entrar, quem atrasou e a previsão dos próximos meses.', 'financeiro', '']
+];
+const ADV = [
+  ['Atendimento por mensagem', 'Triagem, alerta de urgência e respostas às dúvidas repetidas, sempre identificado como assistente virtual.', 'Você só é chamada quando importa.'],
+  ['Modo audiência', 'Resposta automática a partir da agenda.', 'Audiência sem interrupção e sem cliente esquecido.'],
+  ['Agenda eletrônica', 'Conecta o Google Agenda ou Outlook. Audiências, prazos e atendimentos em um só lugar.', 'Um calendário só, sem digitar duas vezes.'],
+  ['Monitoramento de processos', 'Você cadastra os números e o sistema avisa de cada andamento, com resumo em linguagem simples.', 'Fim de abrir tribunal por tribunal.'],
+  ['Leitor de peças', 'Lê intimações e despachos e propõe os prazos para a agenda, com a sua confirmação.', 'Menos risco de perder prazo.'],
+  ['Cumprimento da pena', 'Mostra o percentual de pena cumprida e a data estimada de cada fração, a partir dos números do sistema de execução.', 'A conta que a família pergunta, sempre à mão.'],
+  ['Clientes por artigo', 'Conversas e casos separados por artigo, no estilo caixa de mensagens.', 'Você encontra qualquer cliente em segundos.'],
+  ['Modelos', 'Suas peças e mensagens salvas com campos que se preenchem sozinhos com os dados do caso.', 'Copiar, colar e revisar, em vez de reescrever.'],
+  ['Contratos e cobrança', 'Contrato eletrônico, assinatura no celular, Pix Automático, cartão ou boleto, régua de cobrança em etapas.', 'Fim do contrato verbal e da cobrança constrangedora.'],
+  ['Financeiro', 'Entradas, atrasos, previsão por mês e receita por artigo.', 'Você sabe quanto vai entrar antes de o mês começar.'],
+  ['Conteúdo para redes', 'Calendário da semana, roteiros e cortes, com checagem de conformidade.', 'Presença profissional em minutos de aprovação por semana.'],
+  ['Painel de aprovações', 'Tudo que a IA prepara espera pelo seu “aprovar”.', 'Você continua no comando.']
+];
+const CLI = [
+  ['Entrar com PIN', 'Só quem a advogada autorizou consegue ver o caso.'],
+  ['Situação em linguagem simples', 'Sem termo técnico: o que aconteceu e o que falta acontecer.'],
+  ['Percentual da pena cumprida', 'O número que a família mais pergunta, com a data estimada de cada fração e o aviso de que ela pode mudar.'],
+  ['Prazos e próximos passos', 'Datas de audiência, visitas e prazos importantes.'],
+  ['Três botões rápidos', 'Andamento, prazos e falar com a advogada, pensados para quem tem pouco tempo de telefone.'],
+  ['Mensagem para a advogada', 'Registrada e respondida assim que ela puder.'],
+  ['Pagamentos claros', 'Parcelas, comprovantes e pagamento por Pix, sem precisar pedir 2ª via.'],
+  ['Documentos', 'Contrato e procuração sempre disponíveis para baixar.']
+];
+const BEFORE = [
+  ['Abrir cada tribunal para ver se algo andou', 'Aviso automático com resumo pronto'],
+  ['Responder a mesma pergunta vinte vezes por dia', 'O assistente responde e você aprova o que importa'],
+  ['Cobrar parcela por mensagem, com constrangimento', 'Lembrete gentil automático e cobrança em etapas'],
+  ['Contrato verbal e parcela “de boca”', 'Contrato assinado e cobrança autorizada desde o primeiro dia'],
+  ['Perfil parado, cliente só por indicação', 'Site, Google e conteúdo semanal trabalhando por você'],
+  ['Não saber quanto entra no mês que vem', 'Previsão de entradas e alerta de atraso']
+];
+const CONTROL = [
+  'Nada que fale do processo sai sem a sua aprovação.',
+  'O assistente se identifica como inteligência artificial e nunca prevê resultado.',
+  'Nenhum valor de honorários ou forma de pagamento aparece em conteúdo público, como exige o Provimento 205/2021.',
+  'O módulo financeiro é opcional: você liga ou desliga por cliente.',
+  'As etapas mais duras da cobrança (notificação, protesto) só acontecem com o seu aval.',
+  'Dados sigilosos com acesso por PIN e registro de acessos, conforme a LGPD.'
+];
+const REAL = [
+  ['Conversa por mensagem', 'API oficial do WhatsApp, com número dedicado do escritório.'],
+  ['Avisos de andamento', 'Serviço de monitoramento de processos e, onde houver acesso autorizado por você, o sistema de execução.'],
+  ['Pagamentos', 'Processador de pagamento com Pix, Pix Automático, cartão e boleto.'],
+  ['Assinatura', 'Provedor de assinatura eletrônica com trilha de auditoria.'],
+  ['Agenda', 'Login com o Google ou o Outlook, sem compartilhar senha.']
+];
+const PACK = [
+  ['Médio', ['Site e Google Meu Negócio', 'Link do WhatsApp para o Instagram', 'Triagem e alerta de urgência', 'Modo audiência', 'Agenda conectada', 'Monitoramento de processos e leitor de peças', 'Painel do cliente', 'Modelos']],
+  ['Avançado', ['Tudo do Médio', 'Contratos e assinatura eletrônica', 'Cobrança com Pix Automático, cartão e boleto', 'Financeiro com previsão', 'Gestão de conteúdo com roteiros e cortes', 'Relatório mensal ao cliente'] ]
+];
+const START = [
+  ['Semana 1', 'Diagnóstico com você, site, Google Meu Negócio e link do WhatsApp.'],
+  ['Semana 2', 'Triagem, alerta de urgência e modo audiência.'],
+  ['Semanas 3 e 4', 'Agenda, monitoramento dos seus processos e painel do cliente.'],
+  ['Depois', 'Contratos, cobrança e conteúdo, em teste e ajustados com você.']
+];
+const NEED = ['Um número de WhatsApp dedicado ao escritório', 'Acesso autorizado aos sistemas que você já usa, quando possível', 'Uma gravação-modelo dos vídeos e a autorização de uso de imagem e voz por escrito', 'Uma conversa com a seccional da OAB para validar os textos'];
+VIEWS.apresentacao = {
+  title: 'Apresentação',
+  sub: () => 'O que você vai ter, para você e para os seus clientes',
+  render(root) {
+    const go2 = (n, a, t) => `<button class="btn" data-go="${n}" data-arg="${a || ''}" type="button">${t}</button>`;
+    root.innerHTML = `<div class="doc-wrap">
+      <section class="doc-hero"><p class="eyebrow">Plantão Jurídico · para ${esc(DRA())}</p>
+        <h2>Seu escritório atendendo, cobrando e aparecendo. Você decide o que sai.</h2>
+        <p>Você trabalha muito e não tem tempo para responder mensagem, abrir tribunal, cobrar parcela e cuidar do perfil. O Plantão Jurídico faz o trabalho repetitivo e deixa para você só o que exige a advogada: aprovar, decidir e defender.</p>
+        <div class="row-actions">${go2('whatsapp', 'urgencia', 'Ver a demonstração guiada')}<button class="btn" data-mode="cli" type="button">Ver o painel do cliente</button>${go2('layouts', '', 'Escolher o layout')}</div></section>
+
+      <section><h2>Um dia com o sistema</h2><p class="sub">Da madrugada ao fim da tarde, o que acontece sem você ter que fazer.</p>
+        <div class="daylist">${DAY.map(d => `<div class="dayrow"><span class="mono">${d[0]}</span><div><b>${d[1]}</b><p>${d[2]}</p></div>${go2(d[3], d[4], 'Ver')}</div>`).join('')}</div></section>
+
+      <section><h2>Para você, advogada</h2><p class="sub">Doze recursos no painel da advogada.</p>
+        <div class="modgrid">${ADV.map(m => `<div class="mod"><b>${m[0]}</b><p>${m[1]}</p><span class="pill ok">${m[2]}</span></div>`).join('')}</div></section>
+
+      <section><h2>Para o cliente e a família</h2><p class="sub">O que aparece quando eles entram no site. Feito para quem tem pouco tempo e pouca internet.</p>
+        <div class="modgrid">${CLI.map(m => `<div class="mod"><b>${m[0]}</b><p>${m[1]}</p></div>`).join('')}</div>
+        <div class="row-actions" style="margin-top:12px"><button class="btn primary" data-mode="cli" type="button">Abrir o painel do cliente</button></div></section>
+
+      <section><h2>A comodidade por trás</h2>
+        <div class="ba">${BEFORE.map(b => `<div class="ba-row"><span class="ba-a">${b[0]}</span><span class="ba-arrow" aria-hidden="true">→</span><span class="ba-b">${b[1]}</span></div>`).join('')}</div></section>
+
+      <section><h2>Você no comando</h2><ul class="rules">${CONTROL.map(c => `<li>${c}</li>`).join('')}</ul></section>
+
+      <section><h2>O que é simulado aqui e o que será real</h2><p class="sub">Esta demonstração usa dados fictícios e não se liga a nada. Na versão real:</p>
+        <table class="tbl"><tbody>${REAL.map(r => `<tr><td><b>${r[0]}</b></td><td>${r[1]}</td></tr>`).join('')}</tbody></table>
+        <p class="note" style="margin-top:12px">O aviso de novidade no processo chega no mesmo dia, mas a velocidade depende da fonte do tribunal. Por isso não prometemos “tempo real”.</p></section>
+
+      <section><h2>Pacotes</h2><div class="grid g2">${PACK.map(p => `<div class="block"><h2>${p[0]}</h2><ul class="rules">${p[1].map(i => `<li>${i}</li>`).join('')}</ul></div>`).join('')}</div>
+        <p class="legend">Investimento: a combinar com você, depois de escolhermos juntos o que entra.</p></section>
+
+      <section><h2>Como começamos</h2><div class="list">${START.map(s => `<div class="item"><span class="pill acc">${s[0]}</span><span class="t">${s[1]}</span></div>`).join('')}</div>
+        <p class="sub" style="margin-top:12px">O que precisamos de você:</p><ul class="rules">${NEED.map(n => `<li>${n}</li>`).join('')}</ul>
+        <div class="row-actions" style="margin-top:14px">${go2('layouts', '', 'Escolher o layout e dar sua opinião')}</div></section>
+    </div>`;
+    root.onclick = e => { const g = e.target.closest('[data-go]'); if (g) go(g.dataset.go, g.dataset.arg || undefined); };
+  }
+};
+
+/* ---------- Em breve ---------- */
+const IDEAS = [
+  ['Calculadora de execução penal', 'Data provável de progressão, livramento e remição, calculada e validada por ela.'],
+  ['Escala de visitas', 'Dias, horários e documentos exigidos por unidade, enviados à família.'],
+  ['Documentos pelo celular', 'Cliente ou família fotografa RG e comprovantes; tudo cai na pasta do caso.'],
+  ['Procuração junto com o contrato', 'Uma única assinatura para contrato e procuração.'],
+  ['Relatório mensal ao cliente', 'Resumo do que foi feito no mês, aprovado por ela. Cumpre o dever de informar.'],
+  ['Despesas por caso', 'Custas, deslocamentos e diligências, para saber o lucro real de cada caso.'],
+  ['Recibo e nota fiscal', 'Emissão automática depois de cada pagamento.'],
+  ['Registro de contatos', 'Histórico de tudo que foi dito ao cliente, útil se houver questionamento.'],
+  ['Segurança reforçada', 'Login com dupla verificação, registro de acessos e cópia de segurança.'],
+  ['Pesquisa de satisfação privada', 'Nota curta do cliente depois de cada fase, só para ela ver.'],
+  ['Painel da agência (nosso)', 'Acompanhar receita, uso e status de cada escritório cliente, quando atendermos mais de um.']
+];
+VIEWS.roadmap = {
+  title: 'Em breve',
+  sub: () => 'O que pode entrar depois da primeira versão',
+  render(root) {
+    root.innerHTML = `<div class="block"><h2>Próximas ideias</h2><ul class="ideas">${IDEAS.map(([t, d]) => `<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join('')}</ul></div>`;
+  }
+};
+
+/* ---------- início ---------- */
+const NAV = [['apresentacao', 'Apresentação'], null, ['hoje', 'Hoje'], ['agenda', 'Agenda'], ['processos', 'Processos'], ['clientes', 'Clientes'], ['financeiro', 'Financeiro'], ['contratos', 'Contratos'], ['modelos', 'Modelos'], null, ['whatsapp', 'Demo guiada'], ['layouts', 'Layouts'], ['roadmap', 'Em breve']];
+$('#nav').innerHTML = NAV.map(n => n ? `<button type="button" data-view="${n[0]}" aria-current="false"><span>${n[1]}</span><span class="cnt" hidden></span></button>` : '<hr>').join('');
+$('#nav').addEventListener('click', e => { const b = e.target.closest('[data-view]'); if (b) go(b.dataset.view); });
+$('#p-name').value = profile.name; $('#p-oab').value = profile.oab;
+const onProfile = () => {
+  profile.name = $('#p-name').value; profile.oab = $('#p-oab').value; store.set('profile', profile);
+  if (curView) { const keep = window.scrollY; go(curView); window.scrollTo({top: keep}); }
+};
+$('#p-name').addEventListener('change', onProfile); $('#p-oab').addEventListener('change', onProfile);
+applyMode(curMode); applyLayout(curLayout); applyMode(curMode);
+$('#p-lay').addEventListener('change', ev => { applyLayout(ev.target.value); applyMode(curMode); if (curView === 'layouts') go('layouts'); });
+$('#p-mode').addEventListener('change', ev => applyMode(ev.target.value));
+
+/* chegando a partir do site público (?portal=cliente&quem=ana) */
+const qs = new URLSearchParams(location.search);
+if (qs.get('portal') === 'cliente') { CP.who = qs.get('quem') === 'ana' ? 'ana' : 'marcos'; setMode('cli'); }
+else go('apresentacao');
+})();
+
+</script>
+
+</body>
+</html>
